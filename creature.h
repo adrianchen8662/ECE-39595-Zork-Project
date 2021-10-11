@@ -2,6 +2,7 @@
 #define CREATURE_H_
 #include <string>
 #include "attack.h"
+#include "trigger.h"
 using namespace std;
 
 class Creature{
