@@ -19,7 +19,7 @@ public:
     void setDesc(string desc);
     void setItem(Item itemName);
     void setContainer(Container containerName);
-    void setCreature(string creatureName);
+    void setCreature(Creature creature);
     void setTrigger(Trigger trigger);
     void setTrigger(Trigger trigger);
     void setBorder(Border border);

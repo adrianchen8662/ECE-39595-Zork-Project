@@ -1,6 +1,7 @@
 #ifndef ITEM_H_
 #define ITEM_H_
 #include "turnon.h"
+#include "trigger.h"
 #include <string>
 using namespace std;
 
@@ -8,9 +9,11 @@ class Item{
 public:
     Item();
     void setName(string name);
-    void setWriting(string writing);
     void setStatus(string status);
-    void setTurnon(Turnon* turnon);
+    void setDesc(string desc);
+    void setWriting(string writing);
+    void setTurnon(Turnon turnon);
+    void setTrigger(Trigger trigger);
 
 private:
     string name;

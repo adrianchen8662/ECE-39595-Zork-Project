@@ -9,11 +9,11 @@ class Container{
 public:
     Container();
     void setName(string name);
-    void setItem(string item);
     void setStatus(string status);
+    void setDesc(string desc);
     void setAccept(string accept);
+    void setItem(Item item);
     void setTrigger(Trigger trigger);
-    void setTrigger(Trigger* trigger);
 
 private:
     string name;
