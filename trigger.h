@@ -9,16 +9,15 @@ class Trigger{
 public:
     Trigger();
     void addType(string triggerType);
-    void addCommand(string commandName);
     void addCondition(Condition* conditionObj);
     void addCondition(Condition conditionObj);
     void addString(string stringToPrint);
 
 private:
     string type;
-    string command;
     vector<Condition> conditions;
-    string stringToPrint;
+    vector<string> prints;
+    vector<string> actions;
 
 };
 

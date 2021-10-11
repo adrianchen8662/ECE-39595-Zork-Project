@@ -4,6 +4,7 @@
 #include "Border.h"
 #include "container.h"
 #include "creature.h"
+#include "item.h"
 #include <string>
 
 
@@ -13,8 +14,10 @@ class Room {
 public:
     Room();
     void setName(string name);
+    void setStatus(string status);
+    void setType(string type);
     void setDesc(string desc);
-    void setItem(string itemName);
+    void setItem(Item itemName);
     void setContainer(string containerName);
     void setCreature(string creatureName);
     void setTrigger(Trigger* trigger);
@@ -23,11 +26,13 @@ public:
     void setBorder(Border border);
 private:
     string name;
+    string status;
+    string type;
     string desc;
-    vector<string> items;
-    vector<Container> containers;
-    vector<Creature> creatures;
     vector<Border> borders;
+    vector<Container> containers;
+    vector<Item> items;
+    vector<Creature> creatures;
     vector<Trigger> triggers;
 };
 

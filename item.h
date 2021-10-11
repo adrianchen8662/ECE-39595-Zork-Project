@@ -14,9 +14,11 @@ public:
 
 private:
     string name;
-    string writing;
     string status;
-    vector<Turnon> turnons;
+    string desc;
+    string writing;
+    Turnon turnon;
+    vector<Trigger> triggers;
 
 };
 

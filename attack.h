@@ -1,5 +1,5 @@
-#ifndef CREATURE_H_
-#define CREATURE_H_
+#ifndef ATTACK_H_
+#define ATTACK_H_
 #include <string>
 #include <vector>
 #include "condition.h"

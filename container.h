@@ -2,6 +2,7 @@
 #define CONTAINER_H_
 #include <string>
 #include "trigger.h"
+#include "item.h"
 using namespace std;
 
 class Container{
@@ -16,12 +17,11 @@ public:
 
 private:
     string name;
-    vector<string> items;
     string status;
-    string accept;
+    string desc;
+    vector<string> accept;
+    vector<Item> items;
     vector<Trigger> triggers;
-
-
 };
 
 #endif

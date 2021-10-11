@@ -15,8 +15,9 @@ public:
     void setTrigger(Trigger* trigger);
 private:
     string name;
-    string vul;
-    vector<string> attacks;
+    string status;
+    vector<string> vul;
+    string attack;
     vector<Trigger> triggers;
 };
 
