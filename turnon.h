@@ -1,6 +1,7 @@
 #ifndef TURNON_H_
 #define TURNON_H_
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -10,8 +11,8 @@ public:
     void setPrint(string print);
     void setAction(string action);
 private:
-    string print;
-    string action;
+    vector<string> print;
+    vector<string> action;
 };
 
 
