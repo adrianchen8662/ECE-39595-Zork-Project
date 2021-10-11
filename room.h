@@ -18,11 +18,11 @@ public:
     void setType(string type);
     void setDesc(string desc);
     void setItem(Item itemName);
-    void setContainer(string containerName);
+    void setContainer(Container containerName);
     void setCreature(string creatureName);
-    void setTrigger(Trigger* trigger);
     void setTrigger(Trigger trigger);
-    void setBorder(Border* border);
+    void setTrigger(Trigger trigger);
+    void setBorder(Border border);
     void setBorder(Border border);
 private:
     string name;
