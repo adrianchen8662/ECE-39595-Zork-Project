@@ -105,37 +105,113 @@ Room loadRooms(TiXmlElement* element) {
         {
             room.setItem(value);
         }
-        if (name == "trigger")
+        if (name == "trigger") //nested
         {
             room.setTrigger(value);
         }
-        if (name == "container")
+        if (name == "container") //nested
         {
             room.setContainer(value);
         }
-        if (name == "border")
+        if (name == "border") //nested
         {
             room.setBorder(value);
         }
-        if (name == "creature")
+        if (name == "creature") //nested
         {
-
+            room.setCreature(value);
         }
     }
+    return room;
 }
 
 //loads the items in, turnons are vectors
 Item loadItems(TiXmlElement* element) {
-
+    Item item = new Item();
+    for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        std::string value = childElement->GetText();
+        //update these later based on what values are needed for each set function
+        if (name == "name")
+        {
+            item.setName(value);
+        }
+        if (name == "writing")
+        {
+            item.setWriting(value);
+        }
+        if (name == "status")
+        {
+            item.setStatus(value);
+        }
+        if (name == "turnon") //nested
+        {
+            item.setTurnon(value);
+        }
+    }
+    return item;
 }
 
 Container loadContainers(TiXmlElement* element) {
-
+    Container container = new Container();
+    for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        std::string value = childElement->GetText();
+        //update these later based on what values are needed for each set function
+        if (name == "name")
+        {
+            container.setName(value);
+        }
+        if (name == "item")
+        {
+            container.setItem(value); //nested
+        }
+        if (name == "status")
+        {
+            container.setStatus(value); 
+        }
+        if (name == "accept")
+        {
+            container.setAccept(value);
+        }
+        if (name == "trigger")
+        {
+            container.setTrigger(value); //nested
+        }
+    }
+    return container;
 }
 
 //loads the creatures in, attacks and triggers are vectors
-Creatures loadCreatures(TiXmlElement* element) {
-
+Creature loadCreatures(TiXmlElement* element) {
+    Creature creature = new Creature();
+    for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        std::string value = childElement->GetText();
+        //update these later based on what values are needed for each set function
+        if (name == "name")
+        {
+            creature.setName(value);
+        }
+        if (name == "vulnerability")
+        {
+            creature.setVulnerability(value);
+        }
+        if (name == "attack")
+        {
+            creature.setAttack(value); //nested
+        }
+        if (name == "trigger")
+        {
+            creature.setTrigger(value); //nested
+        }
+        
 }
 
 /*
