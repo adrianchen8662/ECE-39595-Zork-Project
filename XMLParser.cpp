@@ -1,8 +1,8 @@
 #include <XMLParser.h>
 
-void loadXMLFile (vector <Room> rooms, vector <Item> items, vector <Container> containers, vector <Creature> creatures)
+vector<Room> loadXMLFile (std::string filename)
 {
-    std::string filename = "./sample.xml";
+    vector <Room> rooms;
     TiXmlDocument doc(filename);
     doc.LoadFile();
     TiXmlElement* rootElement = doc.RootElement();
@@ -20,24 +20,10 @@ void loadXMLFile (vector <Room> rooms, vector <Item> items, vector <Container> c
                     Room room = loadRooms();
                     rooms.push_back(room);
                 }
-                if (name == "item")
-                {
-                    Item item = loadItems();
-                    items.push_back(item);
-                }
-                if (name == "container")
-                {
-                    Container container = loadContainers();
-                    containers.push_back(container);
-                }
-                if (name == "creature")
-                {
-                    Creature creature = loadCreatures();
-                    creatures.push_back(creature);
-                }
             }
         }
     }
+    return rooms;
 }
 
 Room loadRooms(TiXmlElement* element)
@@ -67,25 +53,25 @@ Room loadRooms(TiXmlElement* element)
         }
         if (name == "trigger")
         {
-            room.setTrigger(roomsTrigger(value));
+            room.setTrigger(roomsTrigger(childElement));
         }
         if (name == "container")
         {
-            room.setContainer(loadContainers(value));
+            room.setContainer(loadContainers(childElement));
         }
-        if (name == "border") //nested //multiple
+        if (name == "border")
         {
-            room.setBorder(value);
+            room.setBorder(loadBorder(childElement));
         }
         if (name == "creature")
         {
-            room.setCreature(loadCreatures(value));
+            room.setCreature(loadCreatures(childElement));
         }
     }
     return room;
 }
 
-Border setBorder(TiXmlElement* Element)
+Border loadBorder(TiXmlElement* Element)
 {
     Border border = new Border();
     TiXmlNode* node = childElement->FirstChild();
@@ -140,7 +126,7 @@ Trigger roomsTrigger(TiXmlElement* element)
         }
         if (name == "condition")
         {
-            roomTrigger.setType(setCondition(value));
+            roomTrigger.setType(setCondition(childElement));
         }
         if (name == "print")
         {
@@ -227,7 +213,7 @@ Container loadContainers(TiXmlElement* element)
         }
         if (name == "trigger")
         {
-            container.setTrigger(roomsTrigger(value)); 
+            container.setTrigger(roomsTrigger(childElement)); 
         }
     }
     return container;
@@ -256,7 +242,7 @@ Creature loadCreatures(TiXmlElement* element)
         }
         if (name == "trigger")
         {
-            creature.setTrigger(roomsTrigger(value));
+            creature.setTrigger(roomsTrigger(childElement));
         }
         
 }
