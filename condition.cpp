@@ -4,6 +4,10 @@
 #include "condition.h"
 using namespace std;
 
+Condition::Condition(){
+    this -> setHas(false);
+}
+
 Condition::Condition(bool has, string objectName, string ownerName){
     this -> has = has;
     this -> objectName = objectName;
