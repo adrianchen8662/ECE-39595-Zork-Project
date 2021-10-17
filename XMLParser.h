@@ -1,4 +1,5 @@
 #include <iostream>
+#define TIXML_USE_STL
 #include "tinyxml.h"
 #include "string"
 #include "room.h"
