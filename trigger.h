@@ -10,13 +10,15 @@ public:
     Trigger();
     void addType(string triggerType);
     void addCondition(Condition* conditionObj);
-    void addString(string stringToPrint);
-
+    void addPrint(string stringToPrint);
+    void addAction(string action);
+    void addCommand(string command);
 private:
     string type;
     vector<Condition*> conditions;
     vector<string> prints;
     vector<string> actions;
+    vector<string> command;
 
 };
 
