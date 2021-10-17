@@ -21,3 +21,7 @@ void Condition::setObject(string objectName){
 void Condition::setOwner(string ownerName){
     this -> ownerName = ownerName;
 }
+
+void Condition::setStatus(string status){
+    this -> status = status;
+}
