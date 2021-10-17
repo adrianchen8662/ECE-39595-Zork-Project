@@ -10,19 +10,19 @@ Item::Item(){
     cout<<"Created Item"<<endl;
 }
 void Item::setName(string name){
-    cout<<"Set name to "<< name;
+    cout<<"Set name to "<< name<<endl;
     this -> name = name;
 }
 void Item::setStatus(string status){
-    cout<<"Set status to "<< status;
+    cout<<"Set status to "<< status<<endl;
     this -> status = status;
 }
 void Item::setDesc(string desc){
-    cout<<"Set desc to "<< desc;
+    cout<<"Set desc to "<< desc<<endl;
     this -> desc = desc;
 }
 void Item::setWriting(string writing){
-    cout<<"Set writing to "<< writing;
+    cout<<"Set writing to "<< writing<<endl;
     this -> writing = writing;
 }
 void Item::setTurnon(Turnon* turnon){

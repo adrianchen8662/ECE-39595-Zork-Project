@@ -42,7 +42,7 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
-        std::string value = childElement->GetText();
+        std::string value = childElement->GetText() ? childElement->GetText() : "";
         if (name == "name")
         {
             room -> setName(value);
@@ -58,15 +58,15 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
         if (name == "item") //search here
         {
             room -> setItem(loadItems(findElement(value, name, rootElement)));
-            cout << "fuck you items" << endl;
         }
         if (name == "trigger") 
         {
+            cout<<"Trigger"<<endl;
             room -> setTrigger(loadTrigger(childElement));
         }
         if (name == "container") //search here
         {
-            room -> setContainer(loadContainers(findElement(value, name, rootElement)));
+            room -> setContainer(loadContainers(findElement(value, name, rootElement), rootElement));
         }
         if (name == "border")
         {
@@ -136,7 +136,7 @@ Trigger* loadTrigger(TiXmlElement* element)
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
-        std::string value = childElement->GetText();
+        std::string value = childElement->GetText() ? childElement->GetText() : "";
         if (name == "command")
         {
             trigger->addCommand(value);
@@ -176,11 +176,12 @@ Item* loadItems(TiXmlElement* element)
 {
     Item* item = new Item();
     cout<<"Starting Item load" <<endl;
+    cout<<element -> FirstChild() ->ToElement()-> GetText();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
-        std::string value = childElement->GetText();
+        std::string value = childElement->GetText() ? childElement->GetText() : "";
         if (name == "trigger")
         {
             item->setTrigger(loadTrigger(childElement));
@@ -215,7 +216,7 @@ Turnon* loadItemTurnOn(TiXmlElement* childElement)
     return itemTurnOn;
 }
 
-Container* loadContainers(TiXmlElement* element)
+Container* loadContainers(TiXmlElement* element, TiXmlElement* rootElement)
 {
     Container* container = new Container();
 
@@ -223,14 +224,14 @@ Container* loadContainers(TiXmlElement* element)
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
-        std::string value = childElement->GetText();
+        std::string value = childElement->GetText() ? childElement->GetText() : "";
         if (name == "name")
         {
             container->setName(value);
         }
         if (name == "item")
         {
-            container->setItem(loadItems(childElement));
+            container->setItem(loadItems(findElement(value, name, rootElement)));
         }
         if (name == "status")
         {
@@ -256,7 +257,7 @@ Attack* loadAttack(TiXmlElement* element)
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
-        std::string value = childElement->GetText();
+        std::string value = childElement->GetText() ? childElement->GetText() : "";
         if (name == "condition")
         {
             attack->setCondition(loadCondition(childElement));
@@ -281,7 +282,7 @@ Creature* loadCreatures(TiXmlElement* element)
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
-        std::string value = childElement->GetText();
+        std::string value = childElement->GetText() ? childElement->GetText() : "";
         if (name == "name")
         {
             creature->setName(value);

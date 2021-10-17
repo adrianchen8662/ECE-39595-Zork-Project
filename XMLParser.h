@@ -17,7 +17,7 @@ Trigger* loadTrigger(TiXmlElement* element);
 Turnon* itemTurnOn(TiXmlElement* childElement);
 Item* loadItems(TiXmlElement* element);
 Turnon* loadItemTurnOn(TiXmlElement* childElement);
-Container* loadContainers(TiXmlElement* element);
+Container* loadContainers(TiXmlElement* element, TiXmlElement* rootElement);
 Attack* loadAttack(TiXmlElement* element);
 Creature* loadCreatures(TiXmlElement* element);
 vector<Room*> loadXMLFile (const std::string filename);
