@@ -135,8 +135,8 @@ Turnon* itemTurnOn(TiXmlElement* childElement)
 {
     Turnon* itemTurnOn = new Turnon();
     TiXmlNode* node = childElement->FirstChild();
-    itemTurnOn->setPrint((node->ToElement()));
-    itemTurnOn->setAction((node->NextSibling())->ToElement());
+    itemTurnOn->setPrint((node->ToElement())->GetText());
+    itemTurnOn->setAction((node->NextSibling())->ToElement()->GetText());
     return itemTurnOn;
 }
 
@@ -152,7 +152,7 @@ Item* loadItems(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "name")
         {
-            item->setTrigger(roomsTrigger(childElement));
+            item->setTrigger(loadTrigger(childElement));
         }
         if (name == "writing")
         {
@@ -175,8 +175,8 @@ Turnon* loadItemTurnOn(TiXmlElement* childElement)
 {
     Turnon* itemTurnOn = new Turnon();
     TiXmlNode* node = childElement->FirstChild();
-    itemTurnOn->setPrint(node->ToElement());
-    itemTurnOn->setAction((node->NextSibling())->ToElement());
+    itemTurnOn->setPrint(node->ToElement()->GetText());
+    itemTurnOn->setAction((node->NextSibling())->ToElement()->GetText());
     return itemTurnOn;
 }
 
@@ -263,6 +263,7 @@ Creature* loadCreatures(TiXmlElement* element)
         {
             creature->setTrigger(loadTrigger(childElement));
         }
+    }
     return creature;
 }
 
