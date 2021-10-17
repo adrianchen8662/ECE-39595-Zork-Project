@@ -60,7 +60,7 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
         }
         if (name == "item") //search here
         {
-            room -> setItem(loadItems(findElement(name, value, rootElement)));
+            room -> setItem(loadItems(findElement(value, name, rootElement)));
         }
         if (name == "trigger") 
         {
@@ -68,7 +68,7 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
         }
         if (name == "container") //search here
         {
-            room -> setContainer(loadContainers(findElement(name, value, rootElement)));
+            room -> setContainer(loadContainers(findElement(value, name, rootElement)));
         }
         if (name == "border")
         {
@@ -76,7 +76,7 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
         }
         if (name == "creature") //search here
         {
-            room -> setCreature(loadCreatures(findElement(name, value, rootElement)));
+            room -> setCreature(loadCreatures(findElement(value, name, rootElement)));
         }
     }
     return room;
