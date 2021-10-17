@@ -13,5 +13,3 @@ void Trigger::addType(string type){
     this -> type = type;
     cout<<"Set trigger type to " << type << endl;
 }
-
-void Trigger::

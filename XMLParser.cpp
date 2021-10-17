@@ -1,5 +1,5 @@
-#include <XMLParser.h>
-
+#include "XMLParser.h"
+Room* loadRooms(TiXmlElement*);
 vector<Room> loadXMLFile (std::string filename)
 {
     vector <Room> rooms;
@@ -9,16 +9,16 @@ vector<Room> loadXMLFile (std::string filename)
 
     if (rootElement != NULL && rootElement->ValueStr() == "map")
     {
-        for (TiXmlNode *node = rootElement->FirstChild(); node != NULL; node->nodeNextSibling())
+        for (TiXmlNode *node = rootElement->FirstChild(); node != NULL; node->NextSibling())
         {
             TiXmlElement* childElement = node->ToElement();
             if (childElement != NULL)
             {
-                std::string name = childElement->ValueStr;
+                std::string name = childElement->ValueStr();
                 if (name == "room")
                 {
-                    Room room = loadRooms();
-                    rooms.push_back(room);
+                    Room* room = loadRooms(childElement);
+                    rooms.push_back(*room);
                 }
             }
         }
@@ -26,9 +26,9 @@ vector<Room> loadXMLFile (std::string filename)
     return rooms;
 }
 
-Room loadRooms(TiXmlElement* element)
+Room* loadRooms(TiXmlElement* element)
 {
-    Room room = new Room();
+    Room* room = new Room();
 
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {

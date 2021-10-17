@@ -7,7 +7,7 @@ CC=g++
 CFLAGS=-g -std=c++11 -Wall -Werror -DTIXML_USE_STL
 
 # Any source files with a same named header file
-CLASSES=tinystr.cpp tinyxml.cpp
+CLASSES=tinystr.cpp tinyxml.cpp attack.cpp border.cpp condition.cpp container.cpp creature.cpp item.cpp room.cpp trigger.cpp turnon.cpp XMLParser.cpp
 #  Source files that have no header file are just included here
 SOURCES=main.cpp $(CLASSES) tinyxmlerror.cpp tinyxmlparser.cpp
 # All cpp files produce a o file

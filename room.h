@@ -1,7 +1,7 @@
 #ifndef ROOM_H_
 #define ROOM_H_
-#include "Trigger.h"
-#include "Border.h"
+#include "trigger.h"
+#include "border.h"
 #include "container.h"
 #include "creature.h"
 #include "item.h"
@@ -21,8 +21,6 @@ public:
     void setContainer(Container containerName);
     void setCreature(Creature creature);
     void setTrigger(Trigger trigger);
-    void setTrigger(Trigger trigger);
-    void setBorder(Border border);
     void setBorder(Border border);
 private:
     string name;

@@ -12,7 +12,7 @@ public:
     void setAction(string action);
 private:
     vector<string> print;
-    vector<string> action;
+    vector<string> actions;
 };
 
 
