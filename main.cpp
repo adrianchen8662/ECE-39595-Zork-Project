@@ -28,7 +28,7 @@ int main(int argc, char** args) {
 	std::vector<Room*> rooms = loadXMLFile(filename);
 
 	// print all results
-	std::cout << "Found " << rooms.size() << " students" << std::endl;
+	std::cout << "Found " << rooms.size() << " rooms" << std::endl;
 	
 
 	// free memory

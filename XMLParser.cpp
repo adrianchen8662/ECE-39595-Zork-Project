@@ -23,9 +23,10 @@ TiXmlElement* findElement(std::string nameToFind, std::string typeToFind, TiXmlE
             {
                 TiXmlElement* secondChild = childNode->ToElement();
                 std::string name = secondChild->ValueStr();
-                std::string value = secondChild->GetText();
+                std::string value = secondChild->GetText() ? secondChild->GetText() : "";
                 if (value == nameToFind)
                 {
+
                     return childElement;
                 }
             }
