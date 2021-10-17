@@ -86,7 +86,6 @@ Border* loadBorder(TiXmlElement* Element)
     return border;
 }
 
-//constructor missing sets 
 Condition* setCondition(TiXmlElement* element)
 {
     Condition* condition = new Condition();
@@ -134,23 +133,23 @@ Trigger* roomsTrigger(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "command")
         {
-            roomTrigger->setCommand(value);
+            roomTrigger->addCommand(value);
         }
         if (name == "type")
         {
-            roomTrigger->setType(value);
+            roomTrigger->addType(value);
         }
         if (name == "condition")
         {
-            roomTrigger->setCondition(childElement);
+            roomTrigger->addCondition(setCondition(childElement));
         }
         if (name == "print")
         {
-            roomTrigger->setPrint(value);
+            roomTrigger->addPrint(value);
         }
         if (name == "action")
         {
-            roomTrigger->setAction(value);
+            roomTrigger->addAction(value);
         }
     }
     return roomTrigger;
