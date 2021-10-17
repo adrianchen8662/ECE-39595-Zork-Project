@@ -7,7 +7,7 @@ using namespace std;
 
 
 Item::Item(){
-    cout<<"Created Item";
+    cout<<"Created Item"<<endl;
 }
 void Item::setName(string name){
     cout<<"Set name to "<< name;
