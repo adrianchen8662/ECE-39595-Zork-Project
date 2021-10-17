@@ -21,15 +21,12 @@ TiXmlElement* findElement(std::string nameToFind, std::string typeToFind, TiXmlE
             //if the thing has the same types, look one level deeper to see if it's the same name
             for (TiXmlNode* childNode = childElement->FirstChild(); childNode != NULL; childNode = childNode->NextSibling())
             {
-                TiXmlElement* secondChild = node->ToElement();
+                TiXmlElement* secondChild = childNode->ToElement();
                 std::string name = secondChild->ValueStr();
                 std::string value = secondChild->GetText();
-                if (name == typeToFind)
+                if (value == nameToFind)
                 {
-                    if (value == nameToFind)
-                    {
-                        return childElement;
-                    }
+                    return childElement;
                 }
             }
         } 
@@ -61,6 +58,7 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
         if (name == "item") //search here
         {
             room -> setItem(loadItems(findElement(value, name, rootElement)));
+            cout << "fuck you items" << endl;
         }
         if (name == "trigger") 
         {
