@@ -263,6 +263,7 @@ Creature* loadCreatures(TiXmlElement* element)
         {
             creature->setTrigger(loadTrigger(childElement));
         }
+    }
     return creature;
 }
 
