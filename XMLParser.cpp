@@ -1,6 +1,6 @@
 #include "XMLParser.h"
-Room* loadRooms(TiXmlElement*);
-vector<Room> loadXMLFile (const std::string filename)
+
+vector<Room*> loadXMLFile (const std::string filename)
 {
     vector <Room*> rooms;
     TiXmlDocument doc(filename); //this is literally a std::sting
@@ -50,7 +50,7 @@ Room* loadRooms(TiXmlElement* element)
         }
         if (name == "item")
         {
-            room -> setItem(value);
+            room -> setItem(loadItems(value));
         }
         if (name == "trigger")
         {
@@ -158,14 +158,14 @@ Turnon* itemTurnOn(TiXmlElement* childElement)
     Turnon* itemTurnOn = new Turnon();
     TiXmlNode* node = childElement->FirstChild();
     itemTurnOn->setPrint((node->ToElement()));
-    itemTurnon->setAction((node->NextSibling())->ToElement());
+    itemTurnOn->setAction((node->NextSibling())->ToElement());
     return itemTurnOn;
 }
 
 //change to pointers
-Item loadItems(TiXmlElement* element)
+Item* loadItems(TiXmlElement* element)
 {
-    Item item = new Item();
+    Item* item = new Item();
 
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
@@ -174,19 +174,19 @@ Item loadItems(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "name")
         {
-            item.setName(value);
+            item->setTrigger(value);
         }
         if (name == "writing")
         {
-            item.setWriting(value);
+            item->setWriting(value);
         }
         if (name == "status")
         {
-            item.setStatus(value);
+            item->setStatus(value);
         }
         if (name == "turnon")
         {
-            item.setTurnon(itemTurnOn(childElement));
+            item->setTurnon(itemTurnOn(childElement));
         }
     }
     return item;
