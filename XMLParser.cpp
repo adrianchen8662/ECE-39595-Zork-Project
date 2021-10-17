@@ -2,7 +2,7 @@
 Room* loadRooms(TiXmlElement*);
 vector<Room> loadXMLFile (const std::string filename)
 {
-    vector <Room> rooms;
+    vector <Room*> rooms;
     TiXmlDocument doc(filename); //this is literally a std::sting
     doc.LoadFile();
     TiXmlElement* rootElement = doc.RootElement();
@@ -18,7 +18,7 @@ vector<Room> loadXMLFile (const std::string filename)
                 std::string name = childElement->ValueStr();
                 if (name == "room")
                 {
-                    Room room = loadRooms(childElement);
+                    Room* room = loadRooms(childElement);
                     rooms.push_back(room);
                 }
             }
@@ -93,7 +93,14 @@ Condition* setCondition(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "has")
         {
-            condition->setHas(value);
+            if (value == "yes")
+            {
+                condition->setHas(true);
+            }
+            else
+            {
+                condition->setHas(false);
+            }
         }
         if (name == "owner")
         {
@@ -109,6 +116,7 @@ Condition* setCondition(TiXmlElement* element)
         }
 
     }
+    return condition;
 }
 
 //change to pointers
@@ -141,6 +149,7 @@ Trigger* roomsTrigger(TiXmlElement* element)
             roomTrigger->setAction(value);
         }
     }
+    return roomTrigger;
 }
 
 //change to pointers
@@ -184,18 +193,18 @@ Item loadItems(TiXmlElement* element)
 }
 
 //change to pointers, look above for fix
-Turnon itemTurnOn(TiXmlElement* childElement)
+Turnon* itemTurnOn(TiXmlElement* childElement)
 {
-    Turnon itemTurnOn = new Turnon();
+    Turnon* itemTurnOn = new Turnon();
     TiXmlNode* node = childElement->FirstChild();
-    itemTurnOn.setPrint(node->ToElement());
-    itemTurnon.setAction((node->NextSibling())->ToElement());
+    itemTurnOn->setPrint(node->ToElement());
+    itemTurnOn->setAction((node->NextSibling())->ToElement());
     return itemTurnOn;
 }
 
-Container loadContainers(TiXmlElement* element)
+Container* loadContainers(TiXmlElement* element)
 {
-    Container container = new Container();
+    Container* container = new Container();
 
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
@@ -204,31 +213,31 @@ Container loadContainers(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "name")
         {
-            container.setName(value);
+            container->setName(value);
         }
         if (name == "item")
         {
-            container.setItem(loadItems(value));
+            container->setItem(loadItems(value));
         }
         if (name == "status")
         {
-            container.setStatus(value); 
+            container->setStatus(value); 
         }
         if (name == "accept")
         {
-            container.setAccept(value);
+            container->setAccept(value);
         }
         if (name == "trigger")
         {
-            container.setTrigger(roomsTrigger(childElement)); 
+            container->setTrigger(roomsTrigger(childElement)); 
         }
     }
     return container;
 }
 
-Creature loadCreatures(TiXmlElement* element)
+Creature* loadCreatures(TiXmlElement* element)
 {
-    Creature creature = new Creature();
+    Creature* creature = new Creature();
 
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
@@ -237,19 +246,19 @@ Creature loadCreatures(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "name")
         {
-            creature.setName(value);
+            creature->setName(value);
         }
         if (name == "vulnerability")
         {
-            creature.setVulnerability(value);
+            creature->setVulnerability(value);
         }
         if (name == "attack")
         {
-            creature.setAttack(value); //nested
+            creature->setAttack(value); //nested
         }
         if (name == "trigger")
         {
-            creature.setTrigger(roomsTrigger(childElement));
+            creature->setTrigger(roomsTrigger(childElement));
         }
-        
+    return creature;
 }
