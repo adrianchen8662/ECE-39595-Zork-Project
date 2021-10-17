@@ -31,6 +31,7 @@ TiXmlElement* findElement(std::string nameToFind, std::string typeToFind, TiXmlE
             }
         } 
     }
+    return NULL;
 }
 
 Room* loadRoom(TiXmlElement* element)

@@ -3,4 +3,4 @@ XMLParseDemo/
 Overview/
 include/
 .vscode/
-.o/
+*.o
