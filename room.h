@@ -22,6 +22,8 @@ public:
     void setCreature(Creature* creature);
     void setTrigger(Trigger* trigger);
     void setBorder(Border* border);
+    string getName();
+    string getDesc();
 private:
     string name;
     string status;
