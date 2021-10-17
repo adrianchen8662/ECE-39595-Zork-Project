@@ -285,7 +285,7 @@ vector<Room*> loadXMLFile (const std::string filename)
                 std::string name = childElement->ValueStr();
                 if (name == "room")
                 {
-                    Room* room = loadRooms(childElement);
+                    Room* room = loadRoom(childElement);
                     rooms.push_back(room);
                 }
             }
