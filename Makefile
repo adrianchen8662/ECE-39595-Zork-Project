@@ -15,7 +15,7 @@ OBJECTS=$(SOURCES:.cpp=.o)
 HEADERS=$(CLASSES:.cpp=.h)
 
 # This variable can be overridden to run the program with a different XML file
-XML_FILE=studentActivity.xml
+XML_FILE=sample.xml
 
 # Additional files to include in the zip that are not source files, both are included for samples
 PROJECT_FILES=Makefile ConsoleApplication.sln ConsoleApplication.vcxproj MakefileProject.sln MakefileProject.vcxproj Readme.pdf

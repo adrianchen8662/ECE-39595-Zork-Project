@@ -63,6 +63,7 @@ Border* loadBorder(TiXmlElement* Element)
 
 Condition* loadCondition(TiXmlElement* element)
 {
+    
     Condition* condition = new Condition();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
@@ -100,6 +101,7 @@ Condition* loadCondition(TiXmlElement* element)
 //change to pointers
 Trigger* loadTrigger(TiXmlElement* element)
 {
+    cout<<"Starting Trigger load" <<endl;
     Trigger* trigger = new Trigger();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
@@ -144,15 +146,19 @@ Turnon* itemTurnOn(TiXmlElement* childElement)
 Item* loadItems(TiXmlElement* element)
 {
     Item* item = new Item();
-
+    cout<<"Starting Item load" <<endl;
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
         std::string value = childElement->GetText();
-        if (name == "name")
+        if (name == "trigger")
         {
             item->setTrigger(loadTrigger(childElement));
+        }
+        if (name == "name")
+        {
+            item->setName(value);
         }
         if (name == "writing")
         {
