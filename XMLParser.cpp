@@ -1,5 +1,9 @@
 #include "XMLParser.h"
 
+//for anything we need to search, it'll always be level 1 of the xml file. 
+//Start from the root, and look at each valuestr until you find the type you want.
+//check if that node contains an element with the name you want
+//then, return that node
 vector<Room*> loadXMLFile (const std::string filename)
 {
     vector <Room*> rooms;
@@ -50,7 +54,7 @@ Room* loadRooms(TiXmlElement* element)
         }
         if (name == "item")
         {
-            room -> setItem(loadItems(value));
+            room -> setItem(loadItems(childElement));
         }
         if (name == "trigger")
         {
@@ -174,7 +178,7 @@ Item* loadItems(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "name")
         {
-            item->setTrigger(value);
+            item->setTrigger(roomsTrigger(childElement));
         }
         if (name == "writing")
         {
@@ -217,7 +221,7 @@ Container* loadContainers(TiXmlElement* element)
         }
         if (name == "item")
         {
-            container->setItem(loadItems(value));
+            container->setItem(loadItems(childElement));
         }
         if (name == "status")
         {
@@ -233,6 +237,22 @@ Container* loadContainers(TiXmlElement* element)
         }
     }
     return container;
+}
+
+Attack* loadAttack(TiXmlElement* element)
+{
+    Attack** attack = new Attack();
+
+    for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        std::string value = childElement->GetText();
+        if (name == "name")
+        {
+
+        }
+    }
 }
 
 Creature* loadCreatures(TiXmlElement* element)
@@ -254,7 +274,7 @@ Creature* loadCreatures(TiXmlElement* element)
         }
         if (name == "attack")
         {
-            creature->setAttack(value); //nested
+            creature->setAttack(loadAttack(childElement)); //nested
         }
         if (name == "trigger")
         {
