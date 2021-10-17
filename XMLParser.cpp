@@ -1,37 +1,12 @@
 #include "XMLParser.h"
 
+//Search function
 //for anything we need to search, it'll always be level 1 of the xml file. 
 //Start from the root, and look at each valuestr until you find the type you want.
 //check if that node contains an element with the name you want
 //then, return that node
-vector<Room*> loadXMLFile (const std::string filename)
-{
-    vector <Room*> rooms;
-    TiXmlDocument doc(filename); //this is literally a std::sting
-    doc.LoadFile();
-    TiXmlElement* rootElement = doc.RootElement();
 
-    //idk why ValueStr() isn't defined its literally right there in the documentation
-    if (rootElement != NULL && rootElement->ValueStr() == "map")
-    {
-        for (TiXmlNode *node = rootElement->FirstChild(); node != NULL; node->NextSibling())
-        {
-            TiXmlElement* childElement = node->ToElement();
-            if (childElement != NULL)
-            {
-                std::string name = childElement->ValueStr();
-                if (name == "room")
-                {
-                    Room* room = loadRooms(childElement);
-                    rooms.push_back(room);
-                }
-            }
-        }
-    }
-    return rooms;
-}
-
-Room* loadRooms(TiXmlElement* element)
+Room* loadRoom(TiXmlElement* element)
 {
     Room* room = new Room();
 
@@ -58,7 +33,7 @@ Room* loadRooms(TiXmlElement* element)
         }
         if (name == "trigger")
         {
-            room -> setTrigger(roomsTrigger(childElement));
+            room -> setTrigger(loadTrigger(childElement));
         }
         if (name == "container")
         {
@@ -86,7 +61,7 @@ Border* loadBorder(TiXmlElement* Element)
     return border;
 }
 
-Condition* setCondition(TiXmlElement* element)
+Condition* loadCondition(TiXmlElement* element)
 {
     Condition* condition = new Condition();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
@@ -123,9 +98,9 @@ Condition* setCondition(TiXmlElement* element)
 }
 
 //change to pointers
-Trigger* roomsTrigger(TiXmlElement* element)
+Trigger* loadTrigger(TiXmlElement* element)
 {
-    Trigger* roomTrigger = new Trigger();
+    Trigger* trigger = new Trigger();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();
@@ -133,26 +108,26 @@ Trigger* roomsTrigger(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "command")
         {
-            roomTrigger->addCommand(value);
+            trigger->addCommand(value);
         }
         if (name == "type")
         {
-            roomTrigger->addType(value);
+            trigger->addType(value);
         }
         if (name == "condition")
         {
-            roomTrigger->addCondition(setCondition(childElement));
+            trigger->addCondition(loadCondition(childElement));
         }
         if (name == "print")
         {
-            roomTrigger->addPrint(value);
+            trigger->addPrint(value);
         }
         if (name == "action")
         {
-            roomTrigger->addAction(value);
+            trigger->addAction(value);
         }
     }
-    return roomTrigger;
+    return trigger;
 }
 
 //change to pointers
@@ -196,7 +171,7 @@ Item* loadItems(TiXmlElement* element)
 }
 
 //change to pointers, look above for fix
-Turnon* itemTurnOn(TiXmlElement* childElement)
+Turnon* loadItemTurnOn(TiXmlElement* childElement)
 {
     Turnon* itemTurnOn = new Turnon();
     TiXmlNode* node = childElement->FirstChild();
@@ -232,7 +207,7 @@ Container* loadContainers(TiXmlElement* element)
         }
         if (name == "trigger")
         {
-            container->setTrigger(roomsTrigger(childElement)); 
+            container->setTrigger(loadTrigger(childElement)); 
         }
     }
     return container;
@@ -240,18 +215,27 @@ Container* loadContainers(TiXmlElement* element)
 
 Attack* loadAttack(TiXmlElement* element)
 {
-    Attack** attack = new Attack();
+    Attack* attack = new Attack();
 
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();
         std::string name = childElement->ValueStr();
         std::string value = childElement->GetText();
-        if (name == "name")
+        if (name == "condition")
         {
-
+            attack->setCondition(loadCondition(childElement));
+        }
+        if (name == "print")
+        {
+            attack->setPrint(value);
+        }
+        if (name == "action")
+        {
+            attack->setAction(value);
         }
     }
+    return attack;
 }
 
 Creature* loadCreatures(TiXmlElement* element)
@@ -277,7 +261,34 @@ Creature* loadCreatures(TiXmlElement* element)
         }
         if (name == "trigger")
         {
-            creature->setTrigger(roomsTrigger(childElement));
+            creature->setTrigger(loadTrigger(childElement));
         }
     return creature;
+}
+
+vector<Room*> loadXMLFile (const std::string filename)
+{
+    vector <Room*> rooms;
+    TiXmlDocument doc(filename); //this is literally a std::sting
+    doc.LoadFile();
+    TiXmlElement* rootElement = doc.RootElement();
+
+    //idk why ValueStr() isn't defined its literally right there in the documentation
+    if (rootElement != NULL && rootElement->ValueStr() == "map")
+    {
+        for (TiXmlNode *node = rootElement->FirstChild(); node != NULL; node = node->NextSibling())
+        {
+            TiXmlElement* childElement = node->ToElement();
+            if (childElement != NULL)
+            {
+                std::string name = childElement->ValueStr();
+                if (name == "room")
+                {
+                    Room* room = loadRooms(childElement);
+                    rooms.push_back(room);
+                }
+            }
+        }
+    }
+    return rooms;
 }
