@@ -112,9 +112,9 @@ Condition* setCondition(TiXmlElement* element)
 }
 
 //change to pointers
-Trigger roomsTrigger(TiXmlElement* element)
+Trigger* roomsTrigger(TiXmlElement* element)
 {
-    Trigger roomTrigger = new Trigger();
+    Trigger* roomTrigger = new Trigger();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();
@@ -122,34 +122,34 @@ Trigger roomsTrigger(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "command")
         {
-            roomTrigger.setCommand(value);
+            roomTrigger->setCommand(value);
         }
         if (name == "type")
         {
-            roomTrigger.setType(value);
+            roomTrigger->setType(value);
         }
         if (name == "condition")
         {
-            roomTrigger.setType(setCondition(childElement));
+            roomTrigger->setCondition(childElement);
         }
         if (name == "print")
         {
-            roomTrigger.setPrint(value);
+            roomTrigger->setPrint(value);
         }
         if (name == "action")
         {
-            roomTrigger.setAction(value);
+            roomTrigger->setAction(value);
         }
     }
 }
 
 //change to pointers
-Turnon itemTurnOn(TiXmlElement* childElement)
+Turnon* itemTurnOn(TiXmlElement* childElement)
 {
-    Turnon itemTurnOn = new Turnon();
+    Turnon* itemTurnOn = new Turnon();
     TiXmlNode* node = childElement->FirstChild();
-    itemTurnOn.setPrint(node->ToElement());
-    itemTurnon.setAction((node->NextSibling())->ToElement());
+    itemTurnOn->setPrint((node->ToElement()));
+    itemTurnon->setAction((node->NextSibling())->ToElement());
     return itemTurnOn;
 }
 
