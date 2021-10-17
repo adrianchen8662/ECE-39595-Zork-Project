@@ -52,3 +52,12 @@ void Room::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
     cout << "Added trigger to room " << this -> name << endl;
 }
+
+
+string Room::getName(){
+    return this->name;
+}
+
+string Room::getDesc(){
+    return this->desc;
+}
