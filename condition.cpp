@@ -9,3 +9,15 @@ Condition::Condition(bool has, string objectName, string ownerName){
     this -> objectName = objectName;
     this -> ownerName = ownerName;
 }
+
+void Condition::setHas(bool has){
+    this -> has = has;
+}
+
+void Condition::setObject(string objectName){
+    this -> objectName = objectName;
+}
+
+void Condition::setOwner(string ownerName){
+    this -> ownerName = ownerName;
+}

@@ -1,6 +1,6 @@
 #include "XMLParser.h"
 Room* loadRooms(TiXmlElement*);
-vector<Room> loadXMLFile (std::string filename)
+vector<Room> loadXMLFile (const std::string filename)
 {
     vector <Room> rooms;
     TiXmlDocument doc(filename); //this is literally a std::sting
@@ -38,35 +38,35 @@ Room* loadRooms(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "name")
         {
-            room.setName(value);
+            room -> setName(value);
         }
         if (name == "description")
         {
-            room.setDesc(value);
+            room -> setDesc(value);
         }
         if (name == "type")
         {
-            room.setType(value);
+            room -> setType(value);
         }
         if (name == "item")
         {
-            room.setItem(value);
+            room -> setItem(value);
         }
         if (name == "trigger")
         {
-            room.setTrigger(roomsTrigger(childElement));
+            room -> setTrigger(roomsTrigger(childElement));
         }
         if (name == "container")
         {
-            room.setContainer(loadContainers(childElement));
+            room -> setContainer(loadContainers(childElement));
         }
         if (name == "border")
         {
-            room.setBorder(loadBorder(childElement));
+            room -> setBorder(loadBorder(childElement));
         }
         if (name == "creature")
         {
-            room.setCreature(loadCreatures(childElement));
+            room -> setCreature(loadCreatures(childElement));
         }
     }
     return room;

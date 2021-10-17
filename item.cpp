@@ -21,9 +21,9 @@ void Item::setDesc(string desc){
 void Item::setWriting(string writing){
     this -> writing = writing;
 }
-void Item::setTurnon(Turnon turnon){
+void Item::setTurnon(Turnon* turnon){
     this -> turnon = turnon;
 }
-void Item::setTrigger(Trigger trigger){
+void Item::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }

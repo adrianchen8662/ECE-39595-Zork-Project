@@ -12,16 +12,16 @@ public:
     void setStatus(string status);
     void setDesc(string desc);
     void setWriting(string writing);
-    void setTurnon(Turnon turnon);
-    void setTrigger(Trigger trigger);
+    void setTurnon(Turnon* turnon);
+    void setTrigger(Trigger* trigger);
 
 private:
     string name;
     string status;
     string desc;
     string writing;
-    Turnon turnon;
-    vector<Trigger> triggers;
+    Turnon* turnon;
+    vector<Trigger*> triggers;
 
 };
 

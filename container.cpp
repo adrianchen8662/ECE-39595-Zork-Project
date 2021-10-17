@@ -28,11 +28,11 @@ void Container::setAccept(string accept){
     cout << "Added " << accept << " to list of accepted items";
 }
 
-void Container::setItem(Item item){
+void Container::setItem(Item* item){
     this -> items.push_back(item);
 }
 
-void Container::setTrigger(Trigger trigger){
+void Container::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
 

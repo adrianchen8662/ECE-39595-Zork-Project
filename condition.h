@@ -5,7 +5,11 @@ using namespace std;
 
 class Condition{
 public:
+    Condition();
     Condition(bool has, string objectName, string ownerName);
+    void setHas(bool has);
+    void setObject(string objectName);
+    void setOwner(string ownerName);
     bool checkCondition();
 private:
     bool has;

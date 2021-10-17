@@ -10,12 +10,11 @@ public:
     Trigger();
     void addType(string triggerType);
     void addCondition(Condition* conditionObj);
-    void addCondition(Condition conditionObj);
     void addString(string stringToPrint);
 
 private:
     string type;
-    vector<Condition> conditions;
+    vector<Condition*> conditions;
     vector<string> prints;
     vector<string> actions;
 
