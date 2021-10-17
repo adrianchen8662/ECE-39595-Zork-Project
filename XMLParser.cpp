@@ -6,6 +6,9 @@
 //check if that node contains an element with the name you want
 //then, return that node
 
+//asks for a name i.e. torch, type i.e. item, and the root element
+//returns the element where the name is at
+//used for creature, container, item when found in the room 
 TiXmlElement* findElement(std::string nameToFind, std::string typeToFind, TiXmlElement* rootElement)
 {
     //searches one level after root node to find something with that type
@@ -34,7 +37,7 @@ TiXmlElement* findElement(std::string nameToFind, std::string typeToFind, TiXmlE
     return NULL;
 }
 
-Room* loadRoom(TiXmlElement* element)
+Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
 {
     Room* room = new Room();
 
@@ -55,25 +58,25 @@ Room* loadRoom(TiXmlElement* element)
         {
             room -> setType(value);
         }
-        if (name == "item")
+        if (name == "item") //search here
         {
-            room -> setItem(loadItems(childElement));
+            room -> setItem(loadItems(findElement(name, value, rootElement)));
         }
-        if (name == "trigger")
+        if (name == "trigger") 
         {
             room -> setTrigger(loadTrigger(childElement));
         }
-        if (name == "container")
+        if (name == "container") //search here
         {
-            room -> setContainer(loadContainers(childElement));
+            room -> setContainer(loadContainers(findElement(name, value, rootElement)));
         }
         if (name == "border")
         {
             room -> setBorder(loadBorder(childElement));
         }
-        if (name == "creature")
+        if (name == "creature") //search here
         {
-            room -> setCreature(loadCreatures(childElement));
+            room -> setCreature(loadCreatures(findElement(name, value, rootElement)));
         }
     }
     return room;
@@ -319,7 +322,7 @@ vector<Room*> loadXMLFile (const std::string filename)
                 std::string name = childElement->ValueStr();
                 if (name == "room")
                 {
-                    Room* room = loadRoom(childElement);
+                    Room* room = loadRoom(childElement, rootElement);
                     rooms.push_back(room);
                 }
             }
