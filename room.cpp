@@ -28,27 +28,27 @@ void Room::setDesc(string desc){
     cout<<"Set Room description to " << desc << endl;
 }
 
-void Room::setBorder(Border border){
+void Room::setBorder(Border* border){
     this -> borders.push_back(border);
     cout << "Added border to room " << this -> name << endl;
 }
 
-void Room::setContainer(Container container){
+void Room::setContainer(Container* container){
     this -> containers.push_back(container);
     cout << "Added container to room " << this -> name << endl;
 }
 
-void Room::setItem(Item item){
+void Room::setItem(Item* item){
     this->items.push_back(item);
     //cout<<"Added " << item.getName() << " to list of items in Room " << this->name << endl;
 }
 
-void Room::setCreature(Creature creature){
+void Room::setCreature(Creature* creature){
     this -> creatures.push_back(creature);
     cout << "Added creature to room " << this -> name << endl;
 }
 
-void Room::setTrigger(Trigger trigger){
+void Room::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
     cout << "Added trigger to room " << this -> name << endl;
 }
