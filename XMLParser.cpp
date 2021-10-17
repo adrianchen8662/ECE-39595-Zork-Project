@@ -6,6 +6,33 @@
 //check if that node contains an element with the name you want
 //then, return that node
 
+TiXmlElement* findElement(std::string nameToFind, std::string typeToFind, TiXmlElement* rootElement)
+{
+    //searches one level after root node to find something with that type
+    for (TiXmlNode* node = rootElement->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        if (name == typeToFind)
+        {
+            //if the thing has the same types, look one level deeper to see if it's the same name
+            for (TiXmlNode* childNode = childElement->FirstChild(); childNode != NULL; childNode = childNode->NextSibling())
+            {
+                TiXmlElement* secondChild = node->ToElement();
+                std::string name = childElement->ValueStr();
+                std::string value = childElement->GetText();
+                if (name == typeToFind)
+                {
+                    if (value == nameToFind)
+                    {
+                        return childElement;
+                    }
+                }
+            }
+        } 
+    }
+}
+
 Room* loadRoom(TiXmlElement* element)
 {
     Room* room = new Room();
