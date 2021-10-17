@@ -3,10 +3,11 @@ Room* loadRooms(TiXmlElement*);
 vector<Room> loadXMLFile (std::string filename)
 {
     vector <Room> rooms;
-    TiXmlDocument doc(filename);
+    TiXmlDocument doc(filename); //this is literally a std::sting
     doc.LoadFile();
     TiXmlElement* rootElement = doc.RootElement();
 
+    //idk why ValueStr() isn't defined its literally right there in the documentation
     if (rootElement != NULL && rootElement->ValueStr() == "map")
     {
         for (TiXmlNode *node = rootElement->FirstChild(); node != NULL; node->NextSibling())
@@ -17,8 +18,8 @@ vector<Room> loadXMLFile (std::string filename)
                 std::string name = childElement->ValueStr();
                 if (name == "room")
                 {
-                    Room* room = loadRooms(childElement);
-                    rooms.push_back(*room);
+                    Room room = loadRooms(childElement);
+                    rooms.push_back(room);
                 }
             }
         }
@@ -71,18 +72,20 @@ Room* loadRooms(TiXmlElement* element)
     return room;
 }
 
-Border loadBorder(TiXmlElement* Element)
+//convert all of these to pointers
+Border* loadBorder(TiXmlElement* Element)
 {
-    Border border = new Border();
-    TiXmlNode* node = childElement->FirstChild();
-    border.setDirection(node->ToElement());
-    border.setName((node->NextSibling())->ToElement());
+    Border* border = new Border(); //this one wants a pointer
+    TiXmlNode* node = Element->FirstChild();
+    border->setDirection(node->ToElement()->GetText());
+    border->setName((node->NextSibling())->ToElement()->GetText());
     return border;
 }
 
-Condition setCondition(TiXmlElement* element)
+//constructor missing sets 
+Condition* setCondition(TiXmlElement* element)
 {
-    Condition condition = new Condition();
+    Condition* condition = new Condition();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();
@@ -90,24 +93,25 @@ Condition setCondition(TiXmlElement* element)
         std::string value = childElement->GetText();
         if (name == "has")
         {
-            condition.setHas(value);
+            condition->setHas(value);
         }
         if (name == "owner")
         {
-            condition.setOwner(value);
+            condition->setOwner(value);
         }
         if (name == "object")
         {
-            condition.setObject(value);
+            condition->setObject(value);
         }
         if (name == "status")
         {
-            condition.setStatus(value);
+            condition->setStatus(value);
         }
 
     }
 }
 
+//change to pointers
 Trigger roomsTrigger(TiXmlElement* element)
 {
     Trigger roomTrigger = new Trigger();
@@ -139,6 +143,7 @@ Trigger roomsTrigger(TiXmlElement* element)
     }
 }
 
+//change to pointers
 Turnon itemTurnOn(TiXmlElement* childElement)
 {
     Turnon itemTurnOn = new Turnon();
@@ -148,6 +153,7 @@ Turnon itemTurnOn(TiXmlElement* childElement)
     return itemTurnOn;
 }
 
+//change to pointers
 Item loadItems(TiXmlElement* element)
 {
     Item item = new Item();
@@ -177,6 +183,7 @@ Item loadItems(TiXmlElement* element)
     return item;
 }
 
+//change to pointers, look above for fix
 Turnon itemTurnOn(TiXmlElement* childElement)
 {
     Turnon itemTurnOn = new Turnon();
