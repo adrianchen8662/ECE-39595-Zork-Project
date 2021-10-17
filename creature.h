@@ -11,15 +11,15 @@ public:
     void setName(string name);
     void setStatus(string status);
     void setVulnerability(string vul);
-    void setAttack(Attack attack);
-    void setTrigger(Trigger trigger);
+    void setAttack(Attack* attack);
+    void setTrigger(Trigger* trigger);
 
 private:
     string name;
     string status;
     vector<string> vul;
-    Attack attack;
-    vector<Trigger> triggers;
+    Attack* attack;
+    vector<Trigger*> triggers;
 };
 
 #endif

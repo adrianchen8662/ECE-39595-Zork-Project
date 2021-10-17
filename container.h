@@ -12,16 +12,16 @@ public:
     void setStatus(string status);
     void setDesc(string desc);
     void setAccept(string accept);
-    void setItem(Item item);
-    void setTrigger(Trigger trigger);
+    void setItem(Item* item);
+    void setTrigger(Trigger* trigger);
 
 private:
     string name;
     string status;
     string desc;
     vector<string> accept;
-    vector<Item> items;
-    vector<Trigger> triggers;
+    vector<Item*> items;
+    vector<Trigger*> triggers;
 };
 
 #endif

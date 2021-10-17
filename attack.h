@@ -8,12 +8,12 @@ using namespace std;
 class Attack{
 public:
     Attack();
-    void setCondition(Condition condition);
+    void setCondition(Condition* condition);
     void setPrint(string print);
     void setAction(string action);
 
 private:
-    vector<Condition> condition;
+    vector<Condition*> condition;
     vector<string> print;
     vector<string> actions;
 };

@@ -17,9 +17,9 @@ void Creature::setStatus(string status){
 void Creature::setVulnerability(string vul){
     this -> vul.push_back(vul);
 }
-void Creature::setAttack(Attack attack){
+void Creature::setAttack(Attack* attack){
     this -> attack = attack;
 }
-void Creature::setTrigger(Trigger trigger){
+void Creature::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
