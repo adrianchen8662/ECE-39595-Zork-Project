@@ -10,13 +10,9 @@
 //get things from cin as a string
 //funtion that does visual things
 
-#include <iostream>
-#include <string>
-#include <player.h>
+#include <commands.h>
 
-using namespace std;
-
-void whichCommand(string command, Player* player, vector<Room*> rooms)
+bool whichCommand(string command, Player* player, vector<Room*> rooms)
 {
     if (command.compare("n") == 0)
     {
@@ -45,6 +41,7 @@ void whichCommand(string command, Player* player, vector<Room*> rooms)
     if (command.compare("open exit") == 0)
     {
         exitCommand();
+        return true;
     }
     if ((command.substr(0,3)).compare("drop") == 0)
     {

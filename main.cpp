@@ -3,6 +3,8 @@
 #include <vector>
 #include "room.h"
 #include "XMLParser.h"
+#include "player.h"
+#include "commands.h"
 
 int main(int argc, char** args) {
 	// prompt for XML file to parse
@@ -28,10 +30,21 @@ int main(int argc, char** args) {
 	std::vector<Room*> rooms = loadXMLFile(filename);
 
 	// print all results
+	/*
 	std::cout << "Found " << rooms.size() << " rooms: " << std::endl;
 	for(Room* room : rooms){
 		cout<<'\t'<<room -> getName()<<endl;
 		cout<<"\tDescription: "<<room -> getDesc()<<endl;
+	}
+	*/
+	bool exit = false;
+	string input;
+	Player* player = new Player();
+	player->setRoom(rooms.front());
+	while (exit != true)
+	{
+		cin >> input;
+		exit = whichCommand(input, player, rooms);
 	}
 
 	// free memory
