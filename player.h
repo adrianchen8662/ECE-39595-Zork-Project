@@ -18,6 +18,7 @@ public:
     void setRoom(Room* roomName); //sets the room which the player is in
     Room* getRoom(); //returns the room the player is currently in
     vector<Item*> checkInventory(); //returns a vector of all items currently in the player's inventory
+    void removeItem(Item* itemName);
 private:
     vector<Item*> inventory;
     Room* room;

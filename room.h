@@ -25,6 +25,7 @@ public:
     string getName();
     string getDesc();
     vector<Border*> getBorders();
+    vector<Item*> getItems();
 private:
     string name;
     string status;

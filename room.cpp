@@ -66,3 +66,8 @@ vector<Border*> Room::getBorders()
 {
     return this->borders;
 }
+
+vector<Item*> Room::getItems()
+{
+    return this->items;
+}

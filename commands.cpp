@@ -65,59 +65,63 @@ Room* searchRoom(vector<Room*> rooms, string name)
     }
 }
 
+Item* searchItems(vector<Item*> items, string name)
+{
+    for (Item* i: items)
+    {
+        if (i->getName().compare(name) == 0)
+        {
+            return i;
+        }
+    }
+}
+
 //for movement 
 void moveNorthCommand(Player* player, vector<Room*> rooms)
 {
-    Room* room = player->getRoom();
-    vector<Border*> borders = room->getBorders();
+    vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
         if (i->getDirection().compare("West") == 0)
         {
-            player->setRoom(searchRoom(rooms,i->getName())); //need room search here
+            player->setRoom(searchRoom(rooms,i->getName()));
         }
     }
 }
 
 void moveSouthCommand(Player* player, vector<Room*> rooms)
 {
-    Room* room = player->getRoom();
-    vector<Border*> borders = room->getBorders();
+    vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
         if (i->getDirection().compare("West") == 0)
         {
-            player->setRoom(searchRoom(rooms, i->getName())); //need room search here, getting a name of a room from borders
+            player->setRoom(searchRoom(rooms, i->getName()));
         }
     }
 }
 
 
-
 void moveEastCommand(Player* player, vector<Room*> rooms)
 {
-    Room* room = player->getRoom();
-    vector<Border*> borders = room->getBorders();
+    vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
         if (i->getDirection().compare("West") == 0)
         {
-            player->setRoom(searchRoom(rooms, i->getName())); //need room search here
+            player->setRoom(searchRoom(rooms, i->getName()));
         }
     }
 }
 
 void moveWestCommand(Player* player, vector<Room*> rooms)
 {
-    //need a getBorder command in room
-    //need a getDirection command in border
-    Room* room = player->getRoom();
-    vector<Border*> borders = room->getBorders();
+    vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
         if (i->getDirection().compare("West") == 0)
         {
-            player->setRoom(searchRoom(rooms, i->getName())); //need room search here
+            player->setRoom(searchRoom(rooms, i->getName()));
         }
     }
 }
@@ -133,9 +137,8 @@ void inventoryCommand(Player* player)
 
 void takeCommand(Player* player, string item)
 {
-    //need a getItems command in room
-    Room* room = player->getRoom();
-    cout << room->getName() << endl;
+    player->setItem(searchItems(player->getRoom()->getItems(), item));
+    // put deleteCommand here for that room
 }
 
 void exitCommand()
@@ -145,7 +148,8 @@ void exitCommand()
 
 void dropCommand(Player* player, string item)
 {
-    
+    player->removeItem(searchItems(player->checkInventory(), item));
+    player->getRoom()->setItem(searchItems(player->checkInventory(), item));
 }
 
 void addCommand()
