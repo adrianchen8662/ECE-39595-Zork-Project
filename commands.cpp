@@ -14,7 +14,21 @@
 
 bool whichCommand(string command, Player* player, vector<Room*> rooms)
 {
-    if (command.compare("n") == 0)
+    if (command.compare("where") == 0) //debug command
+    {
+        cout << player->getRoom()->getName() << endl;
+        cout << player->getRoom()->getDesc() << endl;
+    }
+    else if (command.compare("borders") == 0)
+    {
+        vector<Border*> borders = player->getRoom()->getBorders();
+        for (Border* i: borders)
+        {
+            cout << i->getName() + " - ";
+            cout << i->getDirection() << endl;
+        }
+    }
+    else if (command.compare("n") == 0)
     {
         moveNorthCommand(player, rooms);
     }
@@ -34,7 +48,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     {
         inventoryCommand(player); //player has inventory data as a vector
     }
-    else if ((command.substr(0,3)).compare("take") == 0)
+    else if ((command.substr(0,4)).compare("take") == 0)
     {
         takeCommand(player, command.substr(5)); //player has room data, just look for that room
     }
@@ -43,7 +57,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
         exitCommand();
         return true;
     }
-    else if ((command.substr(0,3)).compare("drop") == 0)
+    else if ((command.substr(0,4)).compare("drop") == 0)
     {
         dropCommand(player, command.substr(5));
     }
@@ -100,6 +114,7 @@ void moveSouthCommand(Player* player, vector<Room*> rooms)
     vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
+        cout << i->getName() + " - " + i->getDirection() << endl;
         if (i->getDirection().compare("south") == 0)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
@@ -116,7 +131,7 @@ void moveEastCommand(Player* player, vector<Room*> rooms)
     vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
-        if (i->getDirection().compare("eest") == 0)
+        if (i->getDirection().compare("east") == 0)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
             cout << "moved to " + player->getRoom()->getName() << endl;
@@ -160,6 +175,7 @@ void takeCommand(Player* player, string item)
     Item* itemToFind = searchItems(player->getRoom()->getItems(), item);
     if (itemToFind == NULL)
     {
+        cout << item + "not in room" << endl;
         return;
     }
     player->setItem(itemToFind);
@@ -182,8 +198,9 @@ void dropCommand(Player* player, string item)
         cout << item + "not in inventory" << endl;
         return;
     }
-    player->removeItem(itemToFind);
     player->getRoom()->setItem(searchItems(player->checkInventory(), item));
+    player->removeItem(itemToFind);
+    cout << item + " dropped" << endl;
 }
 
 

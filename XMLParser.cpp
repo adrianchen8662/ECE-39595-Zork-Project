@@ -82,14 +82,26 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
 }
 
 //convert all of these to pointers
-Border* loadBorder(TiXmlElement* Element)
+Border* loadBorder(TiXmlElement* element)
 {
     Border* border = new Border(); //this one wants a pointer
-    TiXmlNode* node = Element->FirstChild();
-    border->setDirection(node->ToElement()->GetText());
-    border->setName((node->NextSibling())->ToElement()->GetText());
+    for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        std::string value = childElement->GetText();
+        if (name == "name")
+        {
+            border->setName(value);
+        }
+        if (name == "direction")
+        {
+            border->setDirection(value);
+        }
+    }
     return border;
 }
+
 
 Condition* loadCondition(TiXmlElement* element)
 {

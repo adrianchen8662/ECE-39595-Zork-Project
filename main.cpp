@@ -43,7 +43,7 @@ int main(int argc, char** args) {
 	player->setRoom(rooms.front());
 	while (exit != true)
 	{
-		cin >> input;
+		getline(cin,input);
 		exit = whichCommand(input, player, rooms);
 	}
 
