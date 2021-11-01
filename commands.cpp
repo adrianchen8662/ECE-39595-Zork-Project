@@ -16,23 +16,23 @@
 
 using namespace std;
 
-void whichCommand(string command, Player* player)
+void whichCommand(string command, Player* player, vector<Room*> rooms)
 {
     if (command.compare("n") == 0)
     {
-        moveNorthCommand(player);
+        moveNorthCommand(player, rooms);
     }
     if (command.compare("s") == 0)
     {
-        moveSouthCommand(player); //yada yada
+        moveSouthCommand(player, rooms); //yada yada
     }
     if (command.compare("e") == 0)
     {
-        moveEastCommand(player); //check east
+        moveEastCommand(player, rooms); //check east
     }
     if (command.compare("w") == 0)
     {
-        moveWestCommand(player); //check west from player's current room and find anything
+        moveWestCommand(player, rooms); //check west from player's current room and find anything
     }
     if (command.compare("i") == 0)
     {
@@ -53,23 +53,61 @@ void whichCommand(string command, Player* player)
     cout << "Command not recognized!" << endl;
 }
 
+//finding which room it's in based on room name
+Room* searchRoom(vector<Room*> rooms, string name)
+{
+    for (Room* i: rooms)
+    {
+        if (i->getName().compare(name) == 0)
+        {
+            return i;
+        }
+    }
+}
+
 //for movement 
-void moveNorthCommand(Player* player)
+void moveNorthCommand(Player* player, vector<Room*> rooms)
 {
-    
+    Room* room = player->getRoom();
+    vector<Border*> borders = room->getBorders();
+    for (Border* i: borders)
+    {
+        if (i->getDirection().compare("West") == 0)
+        {
+            player->setRoom(searchRoom(rooms,i->getName())); //need room search here
+        }
+    }
 }
 
-void moveSouthCommand(Player* player)
+void moveSouthCommand(Player* player, vector<Room*> rooms)
 {
-
+    Room* room = player->getRoom();
+    vector<Border*> borders = room->getBorders();
+    for (Border* i: borders)
+    {
+        if (i->getDirection().compare("West") == 0)
+        {
+            player->setRoom(searchRoom(rooms, i->getName())); //need room search here, getting a name of a room from borders
+        }
+    }
 }
 
-void moveEastCommand(Player* player)
-{
 
+
+void moveEastCommand(Player* player, vector<Room*> rooms)
+{
+    Room* room = player->getRoom();
+    vector<Border*> borders = room->getBorders();
+    for (Border* i: borders)
+    {
+        if (i->getDirection().compare("West") == 0)
+        {
+            player->setRoom(searchRoom(rooms, i->getName())); //need room search here
+        }
+    }
 }
 
-void moveWestCommand(Player* player)
+void moveWestCommand(Player* player, vector<Room*> rooms)
 {
     //need a getBorder command in room
     //need a getDirection command in border
@@ -79,7 +117,7 @@ void moveWestCommand(Player* player)
     {
         if (i->getDirection().compare("West") == 0)
         {
-            player->setRoom(i->getName()); //need room search here
+            player->setRoom(searchRoom(rooms, i->getName())); //need room search here
         }
     }
 }
