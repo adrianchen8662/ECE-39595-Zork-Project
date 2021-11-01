@@ -180,6 +180,7 @@ void takeCommand(Player* player, string item)
     }
     player->setItem(itemToFind);
     // put deleteCommand here for that room
+    player->getRoom()->deleteItem(itemToFind->getName());
     cout << "Item " + item + " added to the inventory" << endl;
 
 }
@@ -195,7 +196,7 @@ void dropCommand(Player* player, string item)
     Item* itemToFind = searchItems(player->checkInventory(), item);
     if (itemToFind == NULL)
     {
-        cout << item + "not in inventory" << endl;
+        cout << item + " not in inventory" << endl;
         return;
     }
     player->getRoom()->setItem(searchItems(player->checkInventory(), item));

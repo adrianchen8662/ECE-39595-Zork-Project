@@ -19,7 +19,7 @@ void takeCommand(Player* player, string item);
 void exitCommand();
 void dropCommand(Player* player, string item);
 void addCommand();
-void deleteCommand();
+void deleteCommand(Room r, string object);
 void updateCommand();
 void gameOverCommand();
 

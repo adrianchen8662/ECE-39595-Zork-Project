@@ -22,6 +22,7 @@ public:
     void setCreature(Creature* creature);
     void setTrigger(Trigger* trigger);
     void setBorder(Border* border);
+    void deleteItem(string object);
     string getName();
     string getDesc();
     vector<Border*> getBorders();

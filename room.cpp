@@ -71,3 +71,15 @@ vector<Item*> Room::getItems()
 {
     return this->items;
 }
+
+void Room::deleteItem(string object)
+{
+    int i = 0;
+    for(; i < this->items.size(); i++){
+        if(this->items[i]->getName() == object){
+            break;
+        }
+    }  
+    this->items.erase(this->items.begin() + i);
+    
+}
