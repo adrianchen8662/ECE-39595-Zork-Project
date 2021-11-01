@@ -186,7 +186,7 @@ void takeCommand(Player* player, string item)
 
 void exitCommand()
 {
-
+    
 }
 
 

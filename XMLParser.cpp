@@ -175,12 +175,23 @@ Trigger* loadTrigger(TiXmlElement* element)
 }
 
 //change to pointers
-Turnon* itemTurnOn(TiXmlElement* childElement)
+Turnon* itemTurnOn(TiXmlElement* element)
 {
     Turnon* itemTurnOn = new Turnon();
-    TiXmlNode* node = childElement->FirstChild();
-    itemTurnOn->setPrint((node->ToElement())->GetText());
-    itemTurnOn->setAction((node->NextSibling())->ToElement()->GetText());
+    for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
+    {
+        TiXmlElement* childElement = node->ToElement();
+        std::string name = childElement->ValueStr();
+        std::string value = childElement->GetText();
+        if (name == "print")
+        {
+            itemTurnOn->setPrint(value);
+        }
+        if (name == "action")
+        {
+            itemTurnOn->setAction(value);
+        }
+    }
     return itemTurnOn;
 }
 
