@@ -61,3 +61,8 @@ string Room::getName(){
 string Room::getDesc(){
     return this->desc;
 }
+
+vector<Border*> Room::getBorders()
+{
+    return this->borders;
+}

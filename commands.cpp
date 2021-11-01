@@ -24,23 +24,23 @@ void whichCommand(string command, Player* player)
     }
     if (command.compare("s") == 0)
     {
-        moveSouthCommand(player);
+        moveSouthCommand(player); //yada yada
     }
     if (command.compare("e") == 0)
     {
-        moveEastCommand(player);
+        moveEastCommand(player); //check east
     }
     if (command.compare("w") == 0)
     {
-        moveWestCommand(player);
+        moveWestCommand(player); //check west from player's current room and find anything
     }
     if (command.compare("i") == 0)
     {
-        inventoryCommand(player);
+        inventoryCommand(player); //player has inventory data as a vector
     }
     if ((command.substr(0,3)).compare("take") == 0)
     {
-        takeCommand();
+        takeCommand(player, command.substr(5)); //player has room data, just look for that room
     }
     if (command.compare("open exit") == 0)
     {
@@ -48,45 +48,56 @@ void whichCommand(string command, Player* player)
     }
     if ((command.substr(0,3)).compare("drop") == 0)
     {
-        dropCommand();
+        dropCommand(player, command.substr(5));
     }
     cout << "Command not recognized!" << endl;
 }
 
 //for movement 
-void moveNorthCommand()
+void moveNorthCommand(Player* player)
+{
+    
+}
+
+void moveSouthCommand(Player* player)
 {
 
 }
 
-void moveSouthCommand()
+void moveEastCommand(Player* player)
 {
 
 }
 
-void moveEastCommand()
+void moveWestCommand(Player* player)
 {
-
+    //need a getBorder command in room
+    //need a getDirection command in border
+    Room* room = player->getRoom();
+    vector<Border*> borders = room->getBorders();
+    for (Border* i: borders)
+    {
+        if (i->getDirection().compare("West") == 0)
+        {
+            player->setRoom(i->getName()); //need room search here
+        }
+    }
 }
 
-void moveWestCommand()
+void inventoryCommand(Player* player)
 {
-
+    vector<Item*> items = player->checkInventory();
+    for (Item* i: items)
+    {
+        cout << i->getName() << endl;
+    }
 }
 
-void inventoryCommand()
+void takeCommand(Player* player, string item)
 {
-
-}
-
-void takeCommand()
-{
-
-}
-
-void openCommand()
-{
-
+    //need a getItems command in room
+    Room* room = player->getRoom();
+    cout << room->getName() << endl;
 }
 
 void exitCommand()
@@ -94,28 +105,27 @@ void exitCommand()
 
 }
 
-void readCommand()
+void dropCommand(Player* player, string item)
+{
+    
+}
+
+void addCommand()
 {
 
 }
 
-void dropCommand()
+void deleteCommand()
 {
 
 }
 
-void putCommand() 
+void updateCommand()
 {
 
 }
 
-void turnOnCommand()
+void gameOverCommand()
 {
 
 }
-
-void attackCommand() 
-{
-
-}
-

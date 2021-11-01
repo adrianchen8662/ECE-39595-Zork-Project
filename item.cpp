@@ -31,3 +31,8 @@ void Item::setTurnon(Turnon* turnon){
 void Item::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
+
+string Item::getName()
+{
+    return name;
+}

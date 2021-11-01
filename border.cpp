@@ -18,3 +18,12 @@ void Border::setDirection(string dir){
     cout<<"Set Border direction to " << dir << endl;
 }
 
+string Border::getDirection()
+{
+    return direction;
+}
+
+string Border::getName()
+{
+    return name;
+}

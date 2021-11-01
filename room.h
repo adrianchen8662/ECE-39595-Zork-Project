@@ -24,6 +24,7 @@ public:
     void setBorder(Border* border);
     string getName();
     string getDesc();
+    vector<Border*> getBorders();
 private:
     string name;
     string status;

@@ -8,11 +8,11 @@ public:
     Border();
     void setDirection(string direction);
     void setName(string name);
-
+    string getDirection();
+    string getName();
 private:
     string direction;
     string name;
-
 };
 
 
