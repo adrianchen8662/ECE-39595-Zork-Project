@@ -19,7 +19,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
         cout << player->getRoom()->getName() << endl;
         cout << player->getRoom()->getDesc() << endl;
     }
-    else if (command.compare("borders") == 0)
+    else if (command.compare("borders") == 0) //debug command
     {
         vector<Border*> borders = player->getRoom()->getBorders();
         for (Border* i: borders)
@@ -54,7 +54,6 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     }
     else if (command.compare("open exit") == 0)
     {
-        exitCommand();
         return true;
     }
     else if ((command.substr(0,4)).compare("drop") == 0)
@@ -63,7 +62,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     }
     else
     {
-        cout << "Command not recognized!" << endl;
+        cout << "command not recognized" << endl;
     }
     return false;
 }
@@ -114,7 +113,6 @@ void moveSouthCommand(Player* player, vector<Room*> rooms)
     vector<Border*> borders = player->getRoom()->getBorders();
     for (Border* i: borders)
     {
-        cout << i->getName() + " - " + i->getDirection() << endl;
         if (i->getDirection().compare("south") == 0)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
@@ -184,12 +182,6 @@ void takeCommand(Player* player, string item)
 
 }
 
-void exitCommand()
-{
-    
-}
-
-
 void dropCommand(Player* player, string item)
 {
     Item* itemToFind = searchItems(player->checkInventory(), item);
@@ -203,6 +195,10 @@ void dropCommand(Player* player, string item)
     cout << item + " dropped" << endl;
 }
 
+/*
+Add <object> to <room/container>: creates an instance of <object> with the specified room or container
+being the owner. This does not work with the inventory
+*/
 
 void addCommand()
 {
