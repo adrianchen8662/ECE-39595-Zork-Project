@@ -38,7 +38,7 @@ int main(int argc, char** args) {
 	}
 	*/
 	bool exit = false;
-	string input;
+	std::string input;
 	Player* player = new Player();
 	player->setRoom(rooms.front());
 	while (exit != true)

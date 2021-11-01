@@ -1,5 +1,10 @@
 #include "player.h"
 
+Player::Player()
+{
+    this->name = "player";
+}
+
 void Player::setItem(Item* itemname)
 {
     this->inventory.push_back(itemname);
@@ -20,3 +25,13 @@ vector<Item*> Player::checkInventory()
     return this->inventory;
 }
 
+void Player::removeItem(Item* itemname)
+{
+    for (Item* i: inventory)
+    {
+        if (i->getName().compare(itemname->getName()) == 0)
+        {
+            delete itemname;
+        }
+    }
+}

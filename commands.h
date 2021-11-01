@@ -2,9 +2,9 @@
 #define COMMANDS_H_
 #include <iostream>
 #include <string>
-#include <player.h>
-#include <room.h>
-#include <border.h>
+#include "player.h"
+#include "room.h"
+#include "border.h"
 using namespace std;
 
 bool whichCommand(string command, Player* player, vector<Room*> rooms);

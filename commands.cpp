@@ -10,7 +10,7 @@
 //get things from cin as a string
 //funtion that does visual things
 
-#include <commands.h>
+#include "commands.h"
 
 bool whichCommand(string command, Player* player, vector<Room*> rooms)
 {
@@ -48,6 +48,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
         dropCommand(player, command.substr(5));
     }
     cout << "Command not recognized!" << endl;
+    return false;
 }
 
 //finding which room it's in based on room name
@@ -60,6 +61,7 @@ Room* searchRoom(vector<Room*> rooms, string name)
             return i;
         }
     }
+    return NULL;
 }
 
 Item* searchItems(vector<Item*> items, string name)
@@ -71,6 +73,7 @@ Item* searchItems(vector<Item*> items, string name)
             return i;
         }
     }
+    return NULL;
 }
 
 //for movement 
@@ -143,11 +146,13 @@ void exitCommand()
 
 }
 
+
 void dropCommand(Player* player, string item)
 {
     player->removeItem(searchItems(player->checkInventory(), item));
     player->getRoom()->setItem(searchItems(player->checkInventory(), item));
 }
+
 
 void addCommand()
 {

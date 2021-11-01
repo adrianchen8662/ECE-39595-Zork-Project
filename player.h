@@ -1,14 +1,8 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
-//#include "trigger.h"
-//#include "border.h"
-//#include "container.h"
-//#include "creature.h"
 #include "room.h"
 #include "item.h"
 #include <string>
-
-
 using namespace std;
 
 class Player {
@@ -22,6 +16,6 @@ public:
 private:
     vector<Item*> inventory;
     Room* room;
+    string name;
 };
-
 #endif
