@@ -5,7 +5,7 @@
 using namespace std;
 
 Attack::Attack(){
-    cout<<"Created new attack";
+    //cout<<"Created new attack";
 }
 void Attack::setCondition(Condition* condition){
     this -> condition.push_back(condition);

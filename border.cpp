@@ -5,17 +5,17 @@
 using namespace std;
 
 Border::Border(){
-    cout<<"Created new border" << endl;
+    //cout<<"Created new border" << endl;
 }
 
 void Border::setName(string name){
     this -> name = name;
-    cout<<"Set Border name to " << name << endl;
+    //cout<<"Set Border name to " << name << endl;
 } 
 
 void Border::setDirection(string dir){
     this -> direction = dir;
-    cout<<"Set Border direction to " << dir << endl;
+    //cout<<"Set Border direction to " << dir << endl;
 }
 
 string Border::getDirection()

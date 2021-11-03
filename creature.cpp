@@ -6,7 +6,7 @@ using namespace std;
 
 
 Creature::Creature(){
-    cout<<"Created new Creature"<<endl;
+    //cout<<"Created new Creature"<<endl;
 }
 void Creature::setName(string name){
     this -> name = name;

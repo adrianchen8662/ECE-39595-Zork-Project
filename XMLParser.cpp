@@ -62,7 +62,7 @@ Room* loadRoom(TiXmlElement* element, TiXmlElement* rootElement)
         }
         if (name == "trigger") 
         {
-            cout<<"Trigger"<<endl;
+            //cout<<"Trigger"<<endl;
             room -> setTrigger(loadTrigger(childElement));
         }
         if (name == "container") //search here
@@ -143,7 +143,7 @@ Condition* loadCondition(TiXmlElement* element)
 //change to pointers
 Trigger* loadTrigger(TiXmlElement* element)
 {
-    cout<<"Starting Trigger load" <<endl;
+    //cout<<"Starting Trigger load" <<endl;
     Trigger* trigger = new Trigger();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
@@ -199,8 +199,8 @@ Turnon* itemTurnOn(TiXmlElement* element)
 Item* loadItems(TiXmlElement* element)
 {
     Item* item = new Item();
-    cout<<"Starting Item load" <<endl;
-    cout<<element -> FirstChild() ->ToElement()-> GetText();
+    //cout<<"Starting Item load" <<endl;
+    //cout<<element -> FirstChild() ->ToElement()-> GetText();
     for (TiXmlNode* node = element->FirstChild(); node != NULL; node = node->NextSibling())
     {
         TiXmlElement* childElement = node->ToElement();

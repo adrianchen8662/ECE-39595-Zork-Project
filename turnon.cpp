@@ -6,7 +6,7 @@ using namespace std;
 
 
 Turnon::Turnon(){
-    cout<<"Created new Turnon";
+    //cout<<"Created new Turnon";
 }
 void Turnon::setPrint(string print){
     this -> print.push_back(print);
