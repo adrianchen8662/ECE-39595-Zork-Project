@@ -75,7 +75,7 @@ vector<Item*> Room::getItems()
 void Room::deleteItem(string object)
 {
     int i = 0;
-    for(; i < this->items.size(); i++){
+    for(; i < (int)(this->items.size()); i++){
         if(this->items[i]->getName() == object){
             break;
         }

@@ -46,6 +46,7 @@ int main(int argc, char** args) {
 		getline(cin,input);
 		exit = whichCommand(input, player, rooms);
 	}
+	cout << "Game over" << endl;
 
 	// free memory
 	for (Room* student : rooms) {

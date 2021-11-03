@@ -27,11 +27,14 @@ vector<Item*> Player::checkInventory()
 
 void Player::removeItem(Item* itemname)
 {
+    int x = 0;
     for (Item* i: inventory)
     {
         if (i->getName().compare(itemname->getName()) == 0)
         {
-            delete itemname;
+            //delete itemname;
+            inventory.erase(inventory.begin()+x);
         }
+        x++;
     }
 }
