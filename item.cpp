@@ -36,3 +36,13 @@ string Item::getName()
 {
     return name;
 }
+
+string Item::getWriting()
+{
+    return writing;
+}
+
+Turnon* Item::getTurnOn()
+{
+    return Turnon;
+}

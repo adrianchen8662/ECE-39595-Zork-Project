@@ -14,6 +14,8 @@
 
 bool whichCommand(string command, Player* player, vector<Room*> rooms)
 {
+    //first check if it does a trigger, like if i move north then it wouldn't let me move until i got the torch
+    // need getTriggers for room and a searchTriggers for a trigger that has a condition that matches with the command
     if (command.compare("where") == 0) //debug command
     {
         cout << player->getRoom()->getName() << endl;
@@ -60,6 +62,33 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     {
         dropCommand(player, command.substr(5));
     }
+    // this has to happen after open exit to not confuse open commands
+    else if ((command.substr(0,4)).compare("open") == 0)
+    {
+        // open <container>
+        openCommand(player, command.substr(5));
+    }
+    else if ((command.substr(0,4)).compare("read") == 0)
+    {
+        // read <item>
+        readCommand(player, command.substr(5));
+    }
+    else if ((command.substr(0,3)).compare("put") == 0)
+    {
+        // put <item> in <container>
+        // NOT GOING TO WORK, NEED NEW WAY TO GET COMPOUND COMMANDS
+        putCommand(player, command.substr(4));
+    }
+    else if ((command.substr(0,4)).compare("turn") == 0)
+    {
+        // turn on <item>
+        turnOnCommand(player, command.substr(7));
+    }
+    else if ((command.substr(0,6)).compare("attack") == 0)
+    {
+        // attack <creature> with <item>
+        attackCommand();
+    }
     else
     {
         cout << "command not recognized" << endl;
@@ -83,6 +112,18 @@ Room* searchRoom(vector<Room*> rooms, string name)
 Item* searchItems(vector<Item*> items, string name)
 {
     for (Item* i: items)
+    {
+        if (i->getName().compare(name) == 0)
+        {
+            return i;
+        }
+    }
+    return NULL;
+}
+
+Creature* searchCreatures(vector<Creature*> creatures, string name)
+{
+    for (Creature* i: creatures)
     {
         if (i->getName().compare(name) == 0)
         {
@@ -180,9 +221,9 @@ void takeCommand(Player* player, string item)
     // put deleteCommand here for that room
     player->getRoom()->deleteItem(itemToFind->getName());
     cout << "Item " + item + " added to the inventory" << endl;
-
 }
 
+// update command to include adding the dropped item to the pocket dimension
 void dropCommand(Player* player, string item)
 {
     Item* itemToFind = searchItems(player->checkInventory(), item);
@@ -196,27 +237,102 @@ void dropCommand(Player* player, string item)
     cout << item + " dropped" << endl;
 }
 
-/*
-Add <object> to <room/container>: creates an instance of <object> with the specified room or container
-being the owner. This does not work with the inventory
-*/
-
-void addCommand()
+void openCommand()
 {
 
 }
 
+void readCommand(Player* player, string item)
+{
+    Item* itemToFind = searchItems(player->checkInventory(), item);
+    if (itemToFind == NULL)
+    {
+        cout << item + " not in inventory" << endl;
+        return;
+    }
+    cout << itemToFind->getWriting() << endl;
+}
+
+void putCommand()
+{
+
+}
+
+void turnOnCommand(Player* player, string item)
+{
+    Item* itemToFind = searchItems(player->checkInventory(), item);
+    if (itemToFind == NULL)
+    {
+        cout << item + " not in inventory" << endl;
+        return;
+    }
+    //then, attempt to turn on, whatever that means
+
+}
+
+void attackCommand(Player* player, string creature, string item)
+{
+    // check if item exists in inventory
+    Item* itemToFind = searchItems(player->checkInventory(), item);
+    if (itemToFind == NULL)
+    {
+        cout << item + " not in inventory" << endl;
+        return;
+    }
+    //check if creature exists in room
+    Creature* creatureToFind =  searchCreatures(player->getRoom(), creature)
+    if (creatureToFind == NULL)
+    {
+        cout << creature + " not in room" << endl;
+        return;
+    }
+    //check if item interacts with creature
+
+}
+
+/*
+Add <object> to <room/container>: creates an instance of <object> with the specified room or container
+being the owner. This does not work with the inventory
+*/
+/*
+Conversely, deleted objects shouldn't just vanish. Placing them in another room class that can hold it all would be good, since rooms
+cannot be returned
+Needs to happen in main
+*/
+
+void addCommand()
+{
+    
+}
+
+// instead of messing around with generic pointers, give the delete command a name and have it dig to find what's being deleted
+// the description isn't correct. I can't just delete <object>, it can fit a lot of things, like <item> or <creature>
 void deleteCommand()
 {
 
 }
 
-void updateCommand()
+// update <object> to <status>
+void updateCommand(Player* player, string action)
 {
-
+    string itemname = action.substr(7,action.find(" to ") - 7);
+    string status = action.substr(action.find(" to ") + 4);
+    // THIS ONLY CHECKS THE PLAYER INVENTORY AND ROOM THEY INHABIT, NOT GLOBAL SEARCH
+    Item* itemToFind = searchItems(player->checkInventory(),itemname);
+    if (itemToFind == NULL)
+    {
+        itemToFind = searchItems(player->getRoom()->getItems(), itemname);
+        if (itemToFind == NULL)
+        {
+            cout << "internal command updateCommand failed" << endl;
+            return;
+        }
+    }
+    itemToFind->setStatus(status);
 }
 
 void gameOverCommand()
 {
-
+    // deleteCommand on everything
+    cout << "Victory!" << endl;
 }

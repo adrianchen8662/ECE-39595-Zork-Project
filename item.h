@@ -15,6 +15,8 @@ public:
     void setTurnon(Turnon* turnon);
     void setTrigger(Trigger* trigger);
     string getName();
+    string getWriting();
+    Turnon* getTurnon();
 private:
     string name;
     string status;

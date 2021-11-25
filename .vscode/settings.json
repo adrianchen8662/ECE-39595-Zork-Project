@@ -49,5 +49,6 @@
         "complex": "cpp",
         "numbers": "cpp",
         "cinttypes": "cpp"
-    }
+    },
+    "rpc.appName": "Visual Studio Code"
 }
