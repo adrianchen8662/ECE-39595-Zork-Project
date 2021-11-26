@@ -27,6 +27,7 @@ public:
     string getDesc();
     vector<Border*> getBorders();
     vector<Item*> getItems();
+    vector<Creature*> getCreatures();
 private:
     string name;
     string status;

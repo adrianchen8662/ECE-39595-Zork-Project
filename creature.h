@@ -13,6 +13,7 @@ public:
     void setVulnerability(string vul);
     void setAttack(Attack* attack);
     void setTrigger(Trigger* trigger);
+    string getName();
 
 private:
     string name;

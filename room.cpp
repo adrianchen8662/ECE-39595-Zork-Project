@@ -72,6 +72,11 @@ vector<Item*> Room::getItems()
     return this->items;
 }
 
+vector<Creature*> Room::getCreatures()
+{
+    return this->creatures;
+}
+
 void Room::deleteItem(string object)
 {
     int i = 0;

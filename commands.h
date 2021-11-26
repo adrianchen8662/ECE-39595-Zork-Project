@@ -22,5 +22,10 @@ void addCommand();
 void deleteCommand(Room r, string object);
 void updateCommand();
 void gameOverCommand();
+void openCommand(Player* player, string item);
+void readCommand(Player* player, string item);
+void putCommand(Player* player, string item);
+void turnOnCommand(Player* player, string item);
+void attackCommand(Player* player, string creature, string item);
 
 #endif

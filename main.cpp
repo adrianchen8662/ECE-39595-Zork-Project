@@ -29,7 +29,7 @@ int main(int argc, char** args) {
 
 	std::vector<Room*> rooms = loadXMLFile(filename);
 
-	Room* junkyard = new Room(); // room to store all the things that were deleted, except for Rooms
+	// Room* junkyard = new Room(); // room to store all the things that were deleted, except for Rooms
 
 	// print all results
 	/*

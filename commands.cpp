@@ -82,12 +82,12 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     else if ((command.substr(0,4)).compare("turn") == 0)
     {
         // turn on <item>
-        turnOnCommand(player, command.substr(7));
+        turnOnCommand(player, command.substr(8));
     }
     else if ((command.substr(0,6)).compare("attack") == 0)
     {
         // attack <creature> with <item>
-        attackCommand();
+        attackCommand(player, command.substr(7), command.substr(7)); // not correct
     }
     else
     {
@@ -237,7 +237,7 @@ void dropCommand(Player* player, string item)
     cout << item + " dropped" << endl;
 }
 
-void openCommand()
+void openCommand(Player* player, string item)
 {
 
 }
@@ -253,7 +253,7 @@ void readCommand(Player* player, string item)
     cout << itemToFind->getWriting() << endl;
 }
 
-void putCommand()
+void putCommand(Player* player, string item)
 {
 
 }
@@ -270,6 +270,7 @@ void turnOnCommand(Player* player, string item)
 
 }
 
+
 void attackCommand(Player* player, string creature, string item)
 {
     // check if item exists in inventory
@@ -280,7 +281,7 @@ void attackCommand(Player* player, string creature, string item)
         return;
     }
     //check if creature exists in room
-    Creature* creatureToFind =  searchCreatures(player->getRoom(), creature)
+    Creature* creatureToFind =  searchCreatures(player->getRoom()->getCreatures(), creature);
     if (creatureToFind == NULL)
     {
         cout << creature + " not in room" << endl;
@@ -289,6 +290,7 @@ void attackCommand(Player* player, string creature, string item)
     //check if item interacts with creature
 
 }
+
 
 /*
 Add <object> to <room/container>: creates an instance of <object> with the specified room or container

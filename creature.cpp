@@ -23,3 +23,8 @@ void Creature::setAttack(Attack* attack){
 void Creature::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
+
+string Creature::getName()
+{
+    return name;
+}

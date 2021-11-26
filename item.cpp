@@ -42,7 +42,7 @@ string Item::getWriting()
     return writing;
 }
 
-Turnon* Item::getTurnOn()
+Turnon* Item::getTurnon()
 {
-    return Turnon;
+    return turnon;
 }
