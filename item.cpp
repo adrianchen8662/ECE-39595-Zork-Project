@@ -32,6 +32,11 @@ void Item::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
 
+vector<Trigger*> Item::getTriggers()
+{
+    return this->triggers;
+}
+
 string Item::getName()
 {
     return name;

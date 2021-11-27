@@ -14,7 +14,7 @@ public:
     void setAttack(Attack* attack);
     void setTrigger(Trigger* trigger);
     string getName();
-
+    vector<Trigger*> getTriggers();
 private:
     string name;
     string status;

@@ -13,12 +13,14 @@ public:
     void addPrint(string stringToPrint);
     void addAction(string action);
     void addCommand(string command);
+    string getCommand();
+    string getPrint();
 private:
     string type;
     vector<Condition*> conditions;
-    vector<string> prints;
+    string print;
     vector<string> actions;
-    vector<string> command;
+    string command;
 
 };
 

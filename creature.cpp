@@ -24,6 +24,11 @@ void Creature::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
 
+vector<Trigger*> Creature::getTriggers()
+{
+    return triggers;
+}
+
 string Creature::getName()
 {
     return name;

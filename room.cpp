@@ -77,6 +77,16 @@ vector<Creature*> Room::getCreatures()
     return this->creatures;
 }
 
+vector<Trigger*> Room::getTriggers()
+{
+    return this->triggers;
+}
+
+vector<Container*> Room::getContainers()
+{
+    return this->containers;
+}
+
 void Room::deleteItem(string object)
 {
     int i = 0;

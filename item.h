@@ -17,6 +17,7 @@ public:
     string getName();
     string getWriting();
     Turnon* getTurnon();
+    vector<Trigger*> getTriggers();
 private:
     string name;
     string status;

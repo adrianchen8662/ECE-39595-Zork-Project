@@ -24,7 +24,7 @@ void updateCommand();
 void gameOverCommand();
 void openCommand(Player* player, string item);
 void readCommand(Player* player, string item);
-void putCommand(Player* player, string item);
+void putCommand(Player* player, string item, string container);
 void turnOnCommand(Player* player, string item);
 void attackCommand(Player* player, string creature, string item);
 

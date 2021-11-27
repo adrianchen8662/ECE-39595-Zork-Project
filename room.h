@@ -28,6 +28,8 @@ public:
     vector<Border*> getBorders();
     vector<Item*> getItems();
     vector<Creature*> getCreatures();
+    vector<Trigger*> getTriggers();
+    vector<Container*> getContainers();
 private:
     string name;
     string status;

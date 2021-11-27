@@ -20,7 +20,7 @@ void Trigger::addCondition(Condition* condition){
 }
 
 void Trigger::addPrint(string print){
-    this -> prints.push_back(print);
+    this -> print = print;
 }
 
 void Trigger::addAction(string action){
@@ -28,5 +28,15 @@ void Trigger::addAction(string action){
 }
 
 void Trigger::addCommand(string command){
-    this -> command.push_back(command);
+    this -> command = command;
+}
+
+string Trigger::getCommand()
+{
+    return command;
+}
+
+string Trigger::getPrint()
+{
+    return print;
 }

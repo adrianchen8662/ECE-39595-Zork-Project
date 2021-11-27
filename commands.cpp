@@ -12,16 +12,90 @@
 
 #include "commands.h"
 
+Trigger* findCommands(vector<Trigger*> triggers, string command)
+{
+    for (Trigger* i: triggers)
+    {
+        if (i->getCommand().compare(command) == 0)
+        {
+            return i;
+        }
+    }
+    return NULL;
+}
+
 bool whichCommand(string command, Player* player, vector<Room*> rooms)
 {
     //first check if it does a trigger, like if i move north then it wouldn't let me move until i got the torch
     // need getTriggers for room and a searchTriggers for a trigger that has a condition that matches with the command
+    // Room can have triggers
+    // creatures can have triggers
+    // containers can have triggers
+    // items in room can have triggers
+    // items in containers can have triggers
+    // items in inventory can have triggers
+
+    //commandcompare should check the command versus the commands of the triggers
+    Trigger* triggerToFind = findCommands(player->getRoom()->getTriggers(),command);
+    if (triggerToFind != NULL)
+    {
+        cout << triggerToFind->getPrint() << endl;
+        return false;
+    }
+
+    vector<Item*> items = player->checkInventory();
+    for (Item* i: items)
+    {
+        triggerToFind = findCommands(i->getTriggers(),command);
+        if (triggerToFind != NULL)
+        {
+            cout << triggerToFind->getPrint() << endl;
+            return false;
+        }
+    }
+
+    vector<Creature*> creatures = player->getRoom()->getCreatures();
+    for (Creature* i: creatures)
+    {
+        triggerToFind = findCommands(i->getTriggers(), command);
+        if (triggerToFind != NULL)
+        {
+            cout << triggerToFind->getPrint() << endl;
+            return false;
+        }
+    }
+
+    vector<Container*> containers = player->getRoom()->getContainers();
+    for (Container* i: containers)
+    {
+        triggerToFind = findCommands(i->getTriggers(), command);
+        if (triggerToFind != NULL)
+        {
+            cout << triggerToFind->getPrint() << endl;
+            return false;
+        }
+    }
+
+    for (Container* i : containers)
+    {
+        for (Item* j: i->getItems())
+        {
+            triggerToFind = findCommands(j->getTriggers(), command);
+            if (triggerToFind != NULL)
+            {
+                cout << triggerToFind->getPrint() << endl;
+                return false;
+            }
+        }
+    }
+    
     if (command.compare("where") == 0) //debug command
     {
         cout << player->getRoom()->getName() << endl;
         cout << player->getRoom()->getDesc() << endl;
+        return false;
     }
-    else if (command.compare("borders") == 0) //debug command
+    if (command.compare("borders") == 0) //debug command
     {
         vector<Border*> borders = player->getRoom()->getBorders();
         for (Border* i: borders)
@@ -29,70 +103,134 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
             cout << i->getName() + " - ";
             cout << i->getDirection() << endl;
         }
+        return false;
     }
-    else if (command.compare("n") == 0)
+    if (command.compare("n") == 0)
     {
         moveNorthCommand(player, rooms);
+        return false;
     }
-    else if (command.compare("s") == 0)
+    if (command.compare("s") == 0)
     {
         moveSouthCommand(player, rooms); //yada yada
+        return false;
     }
-    else if (command.compare("e") == 0)
+    if (command.compare("e") == 0)
     {
         moveEastCommand(player, rooms); //check east
+        return false;
     }
-    else if (command.compare("w") == 0)
+    if (command.compare("w") == 0)
     {
         moveWestCommand(player, rooms); //check west from player's current room and find anything
+        return false;
     }
-    else if (command.compare("i") == 0)
+    if (command.compare("i") == 0)
     {
         inventoryCommand(player); //player has inventory data as a vector
+        return false;
     }
-    else if ((command.substr(0,4)).compare("take") == 0)
+    if ((command.substr(0,4)).compare("take") == 0)
     {
+        if (command.compare("take") == 0 || command.compare("take ") == 0)
+        {
+            cout << "no item named to take" << endl;
+            return false;
+        }
         takeCommand(player, command.substr(5)); //player has room data, just look for that room
+        return false;
     }
-    else if (command.compare("open exit") == 0)
-    {
+    if (command.compare("open exit") == 0)
+    { 
         return true;
     }
-    else if ((command.substr(0,4)).compare("drop") == 0)
+    if ((command.substr(0,4)).compare("drop") == 0)
     {
+        if (command.compare("drop") == 0 || command.compare("drop") == 0)
+        {
+            cout << "no item named to drop" << endl;
+            return false;
+        }
         dropCommand(player, command.substr(5));
+        return false;
     }
     // this has to happen after open exit to not confuse open commands
-    else if ((command.substr(0,4)).compare("open") == 0)
+    if ((command.substr(0,4)).compare("open") == 0)
     {
         // open <container>
+        if (command.compare("open") == 0 || command.compare("open ") == 0)
+        {
+            cout << "no container named to open" << endl;
+            return false;
+        }
         openCommand(player, command.substr(5));
+        return false;
     }
-    else if ((command.substr(0,4)).compare("read") == 0)
+    if ((command.substr(0,4)).compare("read") == 0)
     {
         // read <item>
-        readCommand(player, command.substr(5));
+        if (command.compare("read") == 0 || command.compare("read ") == 0)
+        {
+            cout << "no item named to read" << endl;
+            return false;
+        }
+        readCommand(player, command.substr(5)); // add catches if the only input is "read"
+        return false;
     }
-    else if ((command.substr(0,3)).compare("put") == 0)
+    if ((command.substr(0,3)).compare("put") == 0)
     {
         // put <item> in <container>
-        // NOT GOING TO WORK, NEED NEW WAY TO GET COMPOUND COMMANDS
-        putCommand(player, command.substr(4));
+        if (command.compare("put") == 0 || command.compare("put ") == 0)
+        {
+            cout << "missing item name, \" in \" delimiter and container name" << endl;
+            return false;
+        }
+        if (command.find(" in ") == string::npos)
+        {
+            cout << "missing \" in \" delimiter" << endl;
+            return false;
+        }
+        if (command.substr(command.find(" in ")).length() == 0)
+        {
+            cout << "missing item name" << endl;
+            return false;
+        }
+        putCommand(player, command.substr(4,command.find(" in ") - 4), command.substr(command.find(" in ") + 4));
+        return false;
     }
-    else if ((command.substr(0,4)).compare("turn") == 0)
+    if ((command.substr(0,7)).compare("turn on") == 0)
     {
         // turn on <item>
+        if (command.compare("turn on") == 0 || command.compare("turn on ") == 0)
+        {
+            cout << "no item named to turn on" << endl;
+            return false;
+        }
         turnOnCommand(player, command.substr(8));
+        return false;
     }
-    else if ((command.substr(0,6)).compare("attack") == 0)
+    if ((command.substr(0,6)).compare("attack") == 0)
     {
         // attack <creature> with <item>
-        attackCommand(player, command.substr(7), command.substr(7)); // not correct
+        if (command.compare("attack") == 0 || command.compare("attack ") == 0)
+        {
+            cout << "missing creature name, \" with \" delimiter and item name" << endl;
+            return false;
+        }
+        if (command.find(" with ") == string::npos)
+        {
+            cout << "missing \" with \" delimiter" << endl;
+            return false;
+        }
+        if (command.substr(command.find(" with ")).length() == 0)
+        {
+            cout << "missing item name" << endl;
+            return false;
+        }
+        attackCommand(player, command.substr(7,command.find(" with ") - 7), command.substr(command.find(" with ") + 6));
+        return false;
     }
-    else
-    {
-        cout << "command not recognized" << endl;
-    }
+    cout << "command not recognized" << endl;
     return false;
 }
 
@@ -253,7 +391,7 @@ void readCommand(Player* player, string item)
     cout << itemToFind->getWriting() << endl;
 }
 
-void putCommand(Player* player, string item)
+void putCommand(Player* player, string item, string container)
 {
 
 }

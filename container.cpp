@@ -36,3 +36,12 @@ void Container::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
 }
 
+vector<Trigger*> Container::getTriggers()
+{
+    return this->triggers;
+}
+
+vector<Item*> Container::getItems()
+{
+    return this->items;
+}

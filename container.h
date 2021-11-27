@@ -14,7 +14,8 @@ public:
     void setAccept(string accept);
     void setItem(Item* item);
     void setTrigger(Trigger* trigger);
-
+    vector<Trigger*> getTriggers();
+    vector<Item*> getItems();
 private:
     string name;
     string status;
