@@ -15,9 +15,10 @@ public:
     void addCommand(string command);
     string getCommand();
     string getPrint();
+    Condition* getCondition();
 private:
     string type;
-    vector<Condition*> conditions;
+    Condition* condition;
     string print;
     vector<string> actions;
     string command;

@@ -43,6 +43,7 @@ int main(int argc, char** args) {
 	std::string input;
 	Player* player = new Player();
 	player->setRoom(rooms.front());
+	cout << player->getRoom()->getDesc() << endl;
 	while (exit != true)
 	{
 		getline(cin,input);

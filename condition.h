@@ -11,7 +11,10 @@ public:
     void setObject(string objectName);
     void setOwner(string ownerName);
     void setStatus(string status);
-    bool checkCondition();
+    bool getHas();
+    string getObject();
+    string getOwner();
+    string getStatus();
 private:
     bool has;
     string objectName;

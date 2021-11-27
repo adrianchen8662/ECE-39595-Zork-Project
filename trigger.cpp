@@ -15,7 +15,7 @@ void Trigger::addType(string type){
 }
 
 void Trigger::addCondition(Condition* condition){
-    this -> conditions.push_back(condition);
+    this -> condition = condition;
     //cout<<"Added condition to trigger" << endl;
 }
 
@@ -39,4 +39,9 @@ string Trigger::getCommand()
 string Trigger::getPrint()
 {
     return print;
+}
+
+Condition* Trigger::getCondition()
+{
+    return condition;
 }

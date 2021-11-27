@@ -29,3 +29,23 @@ void Condition::setOwner(string ownerName){
 void Condition::setStatus(string status){
     this -> status = status;
 }
+
+bool Condition::getHas()
+{
+    return this->has;
+}
+
+string Condition::getObject()
+{
+    return this->objectName;
+}
+
+string Condition::getOwner()
+{
+    return this->ownerName;
+}
+
+string Condition::getStatus()
+{
+    return this->status; 
+}

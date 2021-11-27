@@ -36,6 +36,16 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     // items in inventory can have triggers
 
     //commandcompare should check the command versus the commands of the triggers
+
+    // TODO #1:
+    // make a triggerhandler function
+    // find some way to figure out the owner for conditions, probably by searching rooms
+    // find some way to figure out the has/object/status conditions
+    // has = bool, false = no, true = yes
+    // object = string, easy to find because attached to owner
+    // owner = string, hard to find, might need to search all rooms and containers plus player
+    // status = status of the object, easy to find
+
     Trigger* triggerToFind = findCommands(player->getRoom()->getTriggers(),command);
     if (triggerToFind != NULL)
     {
@@ -271,7 +281,6 @@ Creature* searchCreatures(vector<Creature*> creatures, string name)
     return NULL;
 }
 
-//for movement 
 void moveNorthCommand(Player* player, vector<Room*> rooms)
 {
     vector<Border*> borders = player->getRoom()->getBorders();
@@ -281,6 +290,7 @@ void moveNorthCommand(Player* player, vector<Room*> rooms)
         {
             player->setRoom(searchRoom(rooms,i->getName()));
             cout << "moved to " + player->getRoom()->getName() << endl;
+            cout << player->getRoom()->getDesc() << endl;
             return;
         }
     }
@@ -296,6 +306,7 @@ void moveSouthCommand(Player* player, vector<Room*> rooms)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
             cout << "moved to " + player->getRoom()->getName() << endl;
+            cout << player->getRoom()->getDesc() << endl;
             return;
         }
     }
@@ -312,6 +323,7 @@ void moveEastCommand(Player* player, vector<Room*> rooms)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
             cout << "moved to " + player->getRoom()->getName() << endl;
+            cout << player->getRoom()->getDesc() << endl;
             return;
         }
     }
@@ -327,6 +339,7 @@ void moveWestCommand(Player* player, vector<Room*> rooms)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
             cout << "moved to " + player->getRoom()->getName() << endl;
+            cout << player->getRoom()->getDesc() << endl;
             return;
         }
     }
@@ -356,8 +369,7 @@ void takeCommand(Player* player, string item)
         return;
     }
     player->setItem(itemToFind);
-    // put deleteCommand here for that room
-    player->getRoom()->deleteItem(itemToFind->getName());
+    player->getRoom()->deleteItem(itemToFind->getName()); //use pocket dimension instead
     cout << "Item " + item + " added to the inventory" << endl;
 }
 
@@ -371,7 +383,7 @@ void dropCommand(Player* player, string item)
         return;
     }
     player->getRoom()->setItem(searchItems(player->checkInventory(), item));
-    player->removeItem(itemToFind);
+    player->removeItem(itemToFind); // use pocket dimension instead
     cout << item + " dropped" << endl;
 }
 
