@@ -45,3 +45,8 @@ vector<Item*> Container::getItems()
 {
     return this->items;
 }
+
+string Container::getName()
+{
+    return this->name;
+}

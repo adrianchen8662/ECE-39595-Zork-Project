@@ -281,6 +281,18 @@ Creature* searchCreatures(vector<Creature*> creatures, string name)
     return NULL;
 }
 
+Container* searchContainers(vector<Container*> containers, string name)
+{
+    for (Container* i: containers)
+    {
+        if (i->getName().compare(name) == 0)
+        {
+            return i;
+        }
+    }
+    return NULL;
+}
+
 void moveNorthCommand(Player* player, vector<Room*> rooms)
 {
     vector<Border*> borders = player->getRoom()->getBorders();
@@ -405,7 +417,22 @@ void readCommand(Player* player, string item)
 
 void putCommand(Player* player, string item, string container)
 {
-
+    // needs add and delete, probably
+    Item* itemToFind = searchItems(player->checkInventory(), item);
+    if (itemToFind == NULL)
+    {
+        cout << item + " not in inventory" << endl;
+        return;
+    }
+    // need a search container only needs to be in the room the player is in
+    Container* containerToFind = searchContainers(player->getRoom()->getContainers(), item);
+    if (containerToFind == NULL)
+    {
+        cout << container + " not in current room" << endl;
+        return;
+    }
+    // place item in container
+    // delete item from player's inventory
 }
 
 void turnOnCommand(Player* player, string item)
@@ -417,7 +444,7 @@ void turnOnCommand(Player* player, string item)
         return;
     }
     //then, attempt to turn on, whatever that means
-
+    updateCommand(player,itemToFind->getTurnon()->getAction());
 }
 
 
@@ -438,7 +465,7 @@ void attackCommand(Player* player, string creature, string item)
         return;
     }
     //check if item interacts with creature
-
+    
 }
 
 

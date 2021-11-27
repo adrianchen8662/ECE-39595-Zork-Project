@@ -10,9 +10,11 @@ public:
     Turnon();
     void setPrint(string print);
     void setAction(string action);
+    string getPrint();
+    string getAction();
 private:
-    vector<string> print;
-    vector<string> actions;
+    string print;
+    string action;
 };
 
 

@@ -9,8 +9,18 @@ Turnon::Turnon(){
     //cout<<"Created new Turnon";
 }
 void Turnon::setPrint(string print){
-    this -> print.push_back(print);
+    this -> print = print;
 }
 void Turnon::setAction(string action){
-    this -> actions.push_back(action);
+    this -> action = action;
+}
+
+string Turnon::getPrint()
+{
+    return this->print;
+}
+
+string Turnon::getAction()
+{
+    return this->action;
 }

@@ -16,6 +16,7 @@ public:
     void setTrigger(Trigger* trigger);
     vector<Trigger*> getTriggers();
     vector<Item*> getItems();
+    string getName();
 private:
     string name;
     string status;
