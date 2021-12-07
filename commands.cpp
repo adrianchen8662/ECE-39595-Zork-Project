@@ -1,5 +1,13 @@
 #include "commands.h"
 
+// hi ainesh
+// I added a conditionchecker function that takes in a trigger, the player and the room vector
+// use that to put it into whichCommand that tests if the condition inside the trigger found applies
+// bool value return, if true it means the condition applies if false it means the condition doesn't apply
+// I'm also missing a couple functions that i pseudocoded but havent written
+// openCommand, putCommand, attackCommand, addCommand, deleteCommand
+// ty <3
+
 // helper function that searches a vector of triggers if the command matches
 Trigger* findCommands(vector<Trigger*> triggers, string command)
 {
@@ -17,7 +25,7 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
 {
     // two trigger types:
-    if (trigger->getCondition()->getHas()) // has-object-owner
+    if (trigger->getCondition()->getHas()) // has-object-owner TODO: probably doesn't work, make another way to check type
     {
         if (trigger->getCondition()->getOwner().compare("inventory") == 0) // if its in the inventory
         {
@@ -26,13 +34,13 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
             {
                 if (i->getName() == trigger->getCondition()->getObject())
                 {
-                    if (trigger->getCondition()->getHas() == true)
+                    if (trigger->getCondition()->getHas())
                     {
-                        return false; // the player has it
+                        return true; // the player has it
                     }
                     else
                     {
-                        return true;
+                        return false;
                     }   
                 }
             }
@@ -46,33 +54,18 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                 {
                     if (x->getName().compare(trigger->getCondition()->getOwner()))
                     {
-                        return true;
-                    }
-                }
-                vector<Creature*> creatures = i->getCreatures();
-                for (Creature* x: creatures)
-                {
-                    if (x->getName().compare(trigger->getCondition()->getOwner()))
-                    {
-                        return true;
-                    }
-                }
-                vector<Item*> items = i->getItems();
-                for (Item* x: items)
-                {
-                    if (x->getName().compare(trigger->getCondition()->getOwner()))
-                    {
-                        return true;
-                    }
-                }
-                for (Container* x: containers)
-                {
-                    vector<Item*> items = x->getItems();
-                    for (Item* y: items)
-                    {
-                        if (y->getName().compare(trigger->getCondition()->getOwner()))
+                        vector<Item*> items = x->getItems();
+                        for (Item* y: items)
+                        if (y->getName().compare(trigger->getCondition()->getObject()))
                         {
-                            return true;
+                            if (trigger->getCondition()->getHas() == true)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -81,7 +74,37 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
     }
     else // object-status
     {
-        
+        for (Room* i: rooms)
+        {
+            vector<Creature*> creatures = i->getCreatures();
+            for (Creature* x: creatures)
+            {
+                if (x->getName().compare(trigger->getCondition()->getObject()))
+                {
+                    return true;
+                }
+            }
+            vector<Item*> items = i->getItems();
+            for (Item* x: items)
+            {
+                if (x->getName().compare(trigger->getCondition()->getObject()))
+                {
+                    return true;
+                }
+            }
+            vector<Container*> containers = i->getContainers();
+            for (Container* x: containers)
+            {
+                vector<Item*> items = x->getItems();
+                for (Item* y: items)
+                {
+                    if (y->getName().compare(trigger->getCondition()->getObject()))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
     }
     return false;
 }
@@ -178,12 +201,12 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     }
     if (command.compare("s") == 0)
     {
-        moveSouthCommand(player, rooms); //yada yada
+        moveSouthCommand(player, rooms);
         return false;
     }
     if (command.compare("e") == 0)
     {
-        moveEastCommand(player, rooms); //check east
+        moveEastCommand(player, rooms);
         return false;
     }
     if (command.compare("w") == 0)
