@@ -6,6 +6,7 @@ using namespace std;
 
 Condition::Condition(){
     this -> setHas(false);
+    this->setOwner("Void");
 }
 
 Condition::Condition(bool has, string objectName, string ownerName){
