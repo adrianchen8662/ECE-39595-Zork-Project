@@ -27,32 +27,33 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
 // recieves a trigger to check and sees if it still applies based on conditions
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
 {
-    // two trigger types:
-
-   // if (trigger->getCondition()->getHas()) // has-object-owner TODO: probably doesn't work, make another way to check type
-   // {
-        //cout<<"has"<<endl;
+    cout << trigger->getCondition()->getOwner() << endl; // DEBUG
+    if (trigger->getCondition()->getOwner().compare("Void") != 0)
+    {
         if (trigger->getCondition()->getOwner().compare("inventory") == 0) // if its in the inventory
         {
+            cout << "Enters" << endl; // DEBUG
             vector<Item*> items = player->checkInventory();
             for (Item* i: items) // if the player doesn't have it, it's ok
             {
+                cout << "looks for item" << endl; // DEBUG
                 if (i->getName() == trigger->getCondition()->getObject())
                 {
+                    cout << trigger->getCondition()->getObject() << endl; // DEBUG
                     if (trigger->getCondition()->getHas())
                     {
-                        return true; // the player has it
+                        return false;
                     }
                     else
                     {
-                        return false;
+                        return true;
                     }   
                 }
             }
+            cout << "not in inventory" << endl; // DEBUG
         }
-        else // if its in the environment
+        else
         {
-
             for (Room* i: rooms)
             {
                 vector<Container*> containers = i->getContainers();
@@ -66,12 +67,10 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                         {
                             if (trigger->getCondition()->getHas() == true)
                             {
-                                cout<<"Here1";
                                 return true;
                             }
                             else
                             {
-                                cout<<"Here2";
                                 return false;
                             }
                         }
@@ -79,25 +78,30 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                 }
             }
         }
-  //  }
-   // else // object-status
-   // {
+    }
+    else
+    {
         for (Room* i: rooms)
         {
+            vector<Trigger*> triggers = i->getTriggers();
             vector<Creature*> creatures = i->getCreatures();
             for (Creature* x: creatures)
             {
-                if (x->getName().compare(trigger->getCondition()->getObject()))
+                cout << x->getName() << endl;
+                cout << trigger->getCondition()->getObject() << endl;
+                if (x->getName().compare(trigger->getCondition()->getObject()) == 0)
                 {
-                    return true;
+                    cout << "lock wants creatures" << endl; // DEBUG
+                    return false;
                 }
             }
             vector<Item*> items = i->getItems();
             for (Item* x: items)
             {
-                if (x->getName().compare(trigger->getCondition()->getObject()))
+                if (x->getName().compare(trigger->getCondition()->getObject()) == 0)
                 {
-                    return true;
+                    cout << "lock wants items" << endl; // DEBUG
+                    return false;
                 }
             }
             vector<Container*> containers = i->getContainers();
@@ -106,14 +110,17 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                 vector<Item*> items = x->getItems();
                 for (Item* y: items)
                 {
-                    if (y->getName().compare(trigger->getCondition()->getObject()))
+                    if (y->getName().compare(trigger->getCondition()->getObject()) == 0)
                     {
-                        return true;
+                        cout << "lock wants container in item" << endl; // DEBUG
+                        return false;
                     }
                 }
             }
         }
-   // }
+    }
+
+    cout << "should come out here" << endl; // DEBUG
     return false;
 }
 
@@ -134,7 +141,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
 
     if (triggerToFind != NULL)
     {
-        if(conditionChecker(triggerToFind, player, rooms)){
+        if(!conditionChecker(triggerToFind, player, rooms)){
             cout << triggerToFind->getPrint() << endl;
             return false;
         }
