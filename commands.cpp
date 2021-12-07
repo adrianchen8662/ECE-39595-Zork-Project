@@ -13,6 +13,7 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
 {
     for (Trigger* i: triggers)
     {
+        
         if (i->getCommand().compare(command) == 0)
         {
             return i;
@@ -25,8 +26,10 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
 {
     // two trigger types:
-    if (trigger->getCondition()->getHas()) // has-object-owner TODO: probably doesn't work, make another way to check type
-    {
+
+   // if (trigger->getCondition()->getHas()) // has-object-owner TODO: probably doesn't work, make another way to check type
+   // {
+        //cout<<"has"<<endl;
         if (trigger->getCondition()->getOwner().compare("inventory") == 0) // if its in the inventory
         {
             vector<Item*> items = player->checkInventory();
@@ -47,6 +50,7 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
         }
         else // if its in the environment
         {
+
             for (Room* i: rooms)
             {
                 vector<Container*> containers = i->getContainers();
@@ -60,10 +64,12 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                         {
                             if (trigger->getCondition()->getHas() == true)
                             {
+                                cout<<"Here1";
                                 return true;
                             }
                             else
                             {
+                                cout<<"Here2";
                                 return false;
                             }
                         }
@@ -71,9 +77,9 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                 }
             }
         }
-    }
-    else // object-status
-    {
+  //  }
+   // else // object-status
+   // {
         for (Room* i: rooms)
         {
             vector<Creature*> creatures = i->getCreatures();
@@ -105,7 +111,7 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                 }
             }
         }
-    }
+   // }
     return false;
 }
 
@@ -122,10 +128,13 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
 
     // searches triggers in room
     Trigger* triggerToFind = findCommands(player->getRoom()->getTriggers(),command);
+
     if (triggerToFind != NULL)
     {
-        cout << triggerToFind->getPrint() << endl;
-        return false;
+        if(conditionChecker(triggerToFind, player, rooms)){
+            cout << triggerToFind->getPrint() << endl;
+            return false;
+        }
     }
 
     // searches triggers in inventory
@@ -133,10 +142,13 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     for (Item* i: items)
     {
         triggerToFind = findCommands(i->getTriggers(),command);
+
         if (triggerToFind != NULL)
         {
-            cout << triggerToFind->getPrint() << endl;
-            return false;
+            if(conditionChecker(triggerToFind, player, rooms)){
+                cout << triggerToFind->getPrint() << endl;
+                return false;
+            }
         }
     }
 
