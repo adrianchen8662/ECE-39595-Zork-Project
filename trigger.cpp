@@ -45,3 +45,13 @@ Condition* Trigger::getCondition()
 {
     return condition;
 }
+
+string Trigger::getType()
+{
+    return type;
+}
+
+vector<string> Trigger::getActions()
+{
+    return actions;
+}

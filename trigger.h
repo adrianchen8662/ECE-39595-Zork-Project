@@ -16,6 +16,8 @@ public:
     string getCommand();
     string getPrint();
     Condition* getCondition();
+    string getType();
+    vector<string> getActions();
 private:
     string type;
     Condition* condition;

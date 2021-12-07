@@ -20,7 +20,7 @@ void exitCommand();
 void dropCommand(Player* player, string item);
 void addCommand();
 void deleteCommand(Room r, string object);
-void updateCommand();
+void updateCommand(Player* player, string action);
 void gameOverCommand();
 void openCommand(Player* player, string item);
 void readCommand(Player* player, string item);

@@ -1,17 +1,6 @@
-//this file will store all the commands for movement and actions
-
-//which command was run, accepts string from input and picks out the command needed
-
-//most of these need an inventory vector to hold items
-//vector<Item*> inventory or something in main
-
-//solution 1: make the player a new class with things to hold items, location and other stuff needed to know where they are and what they can do
-
-//get things from cin as a string
-//funtion that does visual things
-
 #include "commands.h"
 
+// helper function that searches a vector of triggers if the command matches
 Trigger* findCommands(vector<Trigger*> triggers, string command)
 {
     for (Trigger* i: triggers)
@@ -24,19 +13,81 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
     return NULL;
 }
 
+// recieves a trigger to check and sees if it still applies based on conditions
+bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
+{
+    // two trigger types:
+    if (trigger->getCondition()->getHas()) // has-object-owner
+    {
+        if (trigger->getCondition()->getOwner().compare("inventory") == 0) // if its in the inventory
+        {
+            vector<Item*> items = player->checkInventory();
+            for (Item* i: items) // if the player doesn't have it, it's ok
+            {
+                if (i->getName() == trigger->getCondition()->getObject())
+                {
+                    if (trigger->getCondition()->getHas() == true)
+                    {
+                        return false; // the player has it
+                    }
+                    else
+                    {
+                        return true;
+                    }   
+                }
+            }
+        }
+        else // if its in the environment
+        {
+            for (Room* i: rooms)
+            {
+                vector<Container*> containers = i->getContainers();
+                for (Container* x: containers)
+                {
+                    if (x->getName().compare(trigger->getCondition()->getOwner()))
+                    {
+                        return true;
+                    }
+                }
+                vector<Creature*> creatures = i->getCreatures();
+                for (Creature* x: creatures)
+                {
+                    if (x->getName().compare(trigger->getCondition()->getOwner()))
+                    {
+                        return true;
+                    }
+                }
+                vector<Item*> items = i->getItems();
+                for (Item* x: items)
+                {
+                    if (x->getName().compare(trigger->getCondition()->getOwner()))
+                    {
+                        return true;
+                    }
+                }
+                for (Container* x: containers)
+                {
+                    vector<Item*> items = x->getItems();
+                    for (Item* y: items)
+                    {
+                        if (y->getName().compare(trigger->getCondition()->getOwner()))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else // object-status
+    {
+        
+    }
+    return false;
+}
+
 bool whichCommand(string command, Player* player, vector<Room*> rooms)
 {
-    //first check if it does a trigger, like if i move north then it wouldn't let me move until i got the torch
-    // need getTriggers for room and a searchTriggers for a trigger that has a condition that matches with the command
-    // Room can have triggers
-    // creatures can have triggers
-    // containers can have triggers
-    // items in room can have triggers
-    // items in containers can have triggers
-    // items in inventory can have triggers
-
-    //commandcompare should check the command versus the commands of the triggers
-
     // TODO #1:
     // make a triggerhandler function
     // find some way to figure out the owner for conditions, probably by searching rooms
@@ -46,6 +97,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
     // owner = string, hard to find, might need to search all rooms and containers plus player
     // status = status of the object, easy to find
 
+    // searches triggers in room
     Trigger* triggerToFind = findCommands(player->getRoom()->getTriggers(),command);
     if (triggerToFind != NULL)
     {
@@ -53,6 +105,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
         return false;
     }
 
+    // searches triggers in inventory
     vector<Item*> items = player->checkInventory();
     for (Item* i: items)
     {
@@ -64,6 +117,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
         }
     }
 
+    //searches triggers in creatures in room
     vector<Creature*> creatures = player->getRoom()->getCreatures();
     for (Creature* i: creatures)
     {
@@ -75,6 +129,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
         }
     }
 
+    //searches triggers in containers in room
     vector<Container*> containers = player->getRoom()->getContainers();
     for (Container* i: containers)
     {
@@ -85,7 +140,8 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms)
             return false;
         }
     }
-
+    
+    // searches triggers in items in containers in room
     for (Container* i : containers)
     {
         for (Item* j: i->getItems())
