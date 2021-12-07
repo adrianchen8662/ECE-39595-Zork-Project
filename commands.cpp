@@ -8,6 +8,8 @@
 // openCommand, putCommand, attackCommand, addCommand, deleteCommand
 // ty <3
 
+Room* Junkyard = NULL;
+
 // helper function that searches a vector of triggers if the command matches
 Trigger* findCommands(vector<Trigger*> triggers, string command)
 {
@@ -115,8 +117,9 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
     return false;
 }
 
-bool whichCommand(string command, Player* player, vector<Room*> rooms)
+bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR)
 {
+    Junkyard = JunkyardR;
     // TODO #1:
     // make a triggerhandler function
     // find some way to figure out the owner for conditions, probably by searching rooms
@@ -472,6 +475,7 @@ void takeCommand(Player* player, string item)
         return;
     }
     player->setItem(itemToFind);
+    deleteCommand(itemToFind);
     player->getRoom()->deleteItem(itemToFind->getName()); //use pocket dimension instead
     cout << "Item " + item + " added to the inventory" << endl;
 }
@@ -522,6 +526,8 @@ void putCommand(Player* player, string item, string container)
         cout << container + " not in current room" << endl;
         return;
     }
+    addCommand(containerToFind, itemToFind);
+    deleteCommand(itemToFind);
     // place item in container
     // delete item from player's inventory
 }
@@ -570,16 +576,17 @@ cannot be returned
 Needs to happen in main
 */
 
-void addCommand()
+template <typename T>
+void addCommand(T* temp, Item* item)
 {
-    
+    temp->setItem(item);
 }
 
 // instead of messing around with generic pointers, give the delete command a name and have it dig to find what's being deleted
 // the description isn't correct. I can't just delete <object>, it can fit a lot of things, like <item> or <creature>
-void deleteCommand()
+void deleteCommand(Item* item)
 {
-
+    Junkyard->setItem(item);
 }
 
 // update <object> to <status>

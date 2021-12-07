@@ -17,6 +17,7 @@ public:
     vector<Trigger*> getTriggers();
     vector<Item*> getItems();
     string getName();
+    void deleteItem(string object);
 private:
     string name;
     string status;

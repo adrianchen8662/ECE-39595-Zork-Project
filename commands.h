@@ -7,7 +7,7 @@
 #include "border.h"
 using namespace std;
 
-bool whichCommand(string command, Player* player, vector<Room*> rooms);
+bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR);
 Room* searchRoom(vector<Room*> rooms, string name);
 Item* searchItems(vector<Item*> items, string name);
 void moveNorthCommand(Player* player, vector<Room*> rooms);
@@ -18,8 +18,9 @@ void inventoryCommand(Player* player);
 void takeCommand(Player* player, string item);
 void exitCommand();
 void dropCommand(Player* player, string item);
-void addCommand();
-void deleteCommand(Room r, string object);
+template <typename T>
+void addCommand(T* temp, Item* item);
+void deleteCommand(Item* item);
 void updateCommand(Player* player, string action);
 void gameOverCommand();
 void openCommand(Player* player, string item);
