@@ -751,9 +751,7 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
 
 bool attackCondition(Condition* condition, Item* item){
     if(condition->getObject().compare(item->getName()) == 0){
-        cout<<"cond 1";
         if(condition->getStatus().compare(item->getStatus()) == 0){
-            cout<<"cond 2";
             return true;
         }
     }
