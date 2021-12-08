@@ -285,6 +285,26 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
         }
         return false;
     }
+    if (command.compare("containers") == 0) //debug command
+    {
+        vector<Container*> containers = player->getRoom()->getContainers();
+        for (Container* i: containers)
+        {
+            cout << i->getName() << endl;
+        }
+        return false;
+    }
+    if (command.compare("check") == 0)
+    {
+        vector<Container*> containers = player->getRoom()->getContainers();
+        for (Container* i: containers)
+        {
+            for (Item* x: i->getItems())
+            {
+                cout << x->getName() << endl;
+            }
+        }
+    }
     if (command.compare("n") == 0)
     {
         moveNorthCommand(player, rooms);
@@ -602,7 +622,7 @@ void putCommand(Player* player, string item, string container)
         return;
     }
     // need a search container only needs to be in the room the player is in
-    Container* containerToFind = searchContainers(player->getRoom()->getContainers(), item);
+    Container* containerToFind = searchContainers(player->getRoom()->getContainers(), container);
     if (containerToFind == NULL)
     {
         cout << container + " not in current room" << endl;
