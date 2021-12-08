@@ -567,7 +567,7 @@ void takeCommand(Player* player, string item)
     Item* itemToFind = searchItems(player->getRoom()->getItems(), item);
     if (itemToFind == NULL)
     {
-        cout << item + "not in room" << endl;
+        cout << item + " not in room" << endl;
         return;
     }
     player->setItem(itemToFind);
