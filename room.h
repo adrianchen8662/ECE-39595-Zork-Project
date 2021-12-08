@@ -25,6 +25,7 @@ public:
     void deleteItem(string object);
     void deleteCreature(string creature);
     string getName();
+    string getType();
     string getDesc();
     vector<Border*> getBorders();
     vector<Item*> getItems();

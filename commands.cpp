@@ -414,7 +414,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
     }
     if (command.compare("open exit") == 0)
     { 
-        return true;
+        if((player->getRoom()->getType()).compare("exit") == 0)            
+            return true;
+        cout<<"Error"<<endl;
+        return false;
     }
     if ((command.substr(0,4)).compare("drop") == 0)
     {

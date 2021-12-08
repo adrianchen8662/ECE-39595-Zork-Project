@@ -87,6 +87,10 @@ vector<Container*> Room::getContainers()
     return this->containers;
 }
 
+string Room::getType(){
+    return this->type;
+}
+
 void Room::deleteItem(string object)
 {
     int i = 0;
