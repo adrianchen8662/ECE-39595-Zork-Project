@@ -111,77 +111,149 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
     }
     return false;
 }
-
-void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated, string action)
+// has object owner
+void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container* container)
 {
     for (Room* a: rooms)
+    {
+        for (Item* b: a->getItems())
         {
-            for (Item* b: a->getItems())
+            for (Trigger* c: b->getTriggers())
             {
-                for (Trigger* c: b->getTriggers())
+                if (c->getCondition()->getObject().compare(item->getName()) == 0)
                 {
-                    if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    if (c->getCondition()->getOwner().compare(container->getName()) == 0)
                     {
-                        if (c->getCondition()->getStatus().compare(action) == 0)
-                        {
-                            cout << c->getPrint() << endl;
-                        }
+                        cout << c->getPrint() << endl;
                     }
                 }
             }
-            for (Creature* b: a->getCreatures())
+        }
+        for (Creature* b: a->getCreatures())
+        {
+            for (Trigger* c: b->getTriggers())
             {
-                for (Trigger* c: b->getTriggers())
+                if (c->getCondition()->getObject().compare(item->getName()) == 0)
                 {
-                    if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    if (c->getCondition()->getOwner().compare(container->getName()) == 0)
                     {
-                        if (c->getCondition()->getStatus().compare(action) == 0)
-                        {
-                            cout << c->getPrint() << endl;
-                        }
+                        cout << c->getPrint() << endl;
                     }
                 }
             }
-            for (Container* b: a->getContainers())
+        }
+        for (Container* b: a->getContainers())
+        {
+            for (Trigger* c: b->getTriggers())
             {
-                for (Trigger* c: b->getTriggers())
+                if (c->getCondition()->getObject().compare(item->getName()) == 0)
                 {
-                    if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    if (c->getCondition()->getOwner().compare(container->getName()) == 0)
                     {
-                        if (c->getCondition()->getStatus().compare(action) == 0)
-                        {
-                            cout << c->getPrint() << endl;
-                        }
+                        cout << c->getPrint() << endl;
                     }
                 }
             }
-            for (Trigger* b: a->getTriggers())
+        }
+        for (Trigger* b: a->getTriggers())
+        {
+            if (b->getCondition()->getObject().compare(item->getName()) == 0)
             {
-                if (b->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                if (b->getCondition()->getOwner().compare(container->getName()) == 0)
                 {
-                    if (b->getCondition()->getStatus().compare(action) == 0)
-                    {
-                        cout << b->getPrint() << endl;
-                    }
+                    cout << b->getPrint() << endl;
                 }
             }
-            for (Container* b: a->getContainers())
+        }
+        for (Container* b: a->getContainers())
+        {
+            for (Item* c: b->getItems())
             {
-                for (Item* c: b->getItems())
+                for (Trigger* d: c->getTriggers())
                 {
-                    for (Trigger* d: c->getTriggers())
+                    if (d->getCondition()->getObject().compare(item->getName()) == 0)
                     {
-                        if (d->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                        if (d->getCondition()->getOwner().compare(container->getName()) == 0)
                         {
-                           if (d->getCondition()->getStatus().compare(action) == 0)
-                            {
-                                cout << d->getPrint() << endl;
-                            }
+                            cout << d->getPrint() << endl;
                         }
                     }
                 }
             }
         }
+    }
+}
+
+void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated, string action)
+{
+    for (Room* a: rooms)
+    {
+        for (Item* b: a->getItems())
+        {
+            for (Trigger* c: b->getTriggers())
+            {
+                if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                {
+                    if (c->getCondition()->getStatus().compare(action) == 0)
+                    {
+                        cout << c->getPrint() << endl;
+                    }
+                }
+            }
+        }
+        for (Creature* b: a->getCreatures())
+        {
+            for (Trigger* c: b->getTriggers())
+            {
+                if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                {
+                    if (c->getCondition()->getStatus().compare(action) == 0)
+                    {
+                        cout << c->getPrint() << endl;
+                    }
+                }
+            }
+        }
+        for (Container* b: a->getContainers())
+        {
+            for (Trigger* c: b->getTriggers())
+            {
+                if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                {
+                    if (c->getCondition()->getStatus().compare(action) == 0)
+                    {
+                        cout << c->getPrint() << endl;
+                    }
+                }
+            }
+        }
+        for (Trigger* b: a->getTriggers())
+        {
+            if (b->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+            {
+                if (b->getCondition()->getStatus().compare(action) == 0)
+                {
+                    cout << b->getPrint() << endl;
+                }
+            }
+        }
+        for (Container* b: a->getContainers())
+        {
+            for (Item* c: b->getItems())
+            {
+                for (Trigger* d: c->getTriggers())
+                {
+                    if (d->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    {
+                        if (d->getCondition()->getStatus().compare(action) == 0)
+                        {
+                            cout << d->getPrint() << endl;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR)
