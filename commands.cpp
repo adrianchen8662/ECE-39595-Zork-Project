@@ -641,7 +641,17 @@ void attackCommand(Player* player, string creature, string item)
     
 }
 
-
+void openCommand(Player* player, string command)
+{
+    Container* container = searchContainers(player->getRoom()->getContainers(), command);
+    container->setOpen();
+    cout<<container->getName()<<" contains ";
+    for(auto* i : container->getItems()){
+        cout<<i->getName();
+        player->getRoom()->setItem(i);
+    }
+    cout<<endl;
+}
 /*
 Add <object> to <room/container>: creates an instance of <object> with the specified room or container
 being the owner. This does not work with the inventory
