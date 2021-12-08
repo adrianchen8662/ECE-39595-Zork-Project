@@ -491,7 +491,6 @@ void moveNorthCommand(Player* player, vector<Room*> rooms)
         if (i->getDirection().compare("north") == 0)
         {
             player->setRoom(searchRoom(rooms,i->getName()));
-            cout << "moved to " + player->getRoom()->getName() << endl;
             cout << player->getRoom()->getDesc() << endl;
             return;
         }
@@ -507,7 +506,6 @@ void moveSouthCommand(Player* player, vector<Room*> rooms)
         if (i->getDirection().compare("south") == 0)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
-            cout << "moved to " + player->getRoom()->getName() << endl;
             cout << player->getRoom()->getDesc() << endl;
             return;
         }
@@ -524,7 +522,6 @@ void moveEastCommand(Player* player, vector<Room*> rooms)
         if (i->getDirection().compare("east") == 0)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
-            cout << "moved to " + player->getRoom()->getName() << endl;
             cout << player->getRoom()->getDesc() << endl;
             return;
         }
@@ -540,7 +537,6 @@ void moveWestCommand(Player* player, vector<Room*> rooms)
         if (i->getDirection().compare("west") == 0)
         {
             player->setRoom(searchRoom(rooms, i->getName()));
-            cout << "moved to " + player->getRoom()->getName() << endl;
             cout << player->getRoom()->getDesc() << endl;
             return;
         }
@@ -659,7 +655,9 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
 
 bool attackCondition(Condition* condition, Item* item){
     if(condition->getObject().compare(item->getName()) == 0){
+        cout<<"cond 1";
         if(condition->getStatus().compare(item->getStatus()) == 0){
+            cout<<"cond 2";
             return true;
         }
     }
@@ -680,12 +678,10 @@ void attackAction(string command, Player* player, Item* item, Creature* creature
         return;
     }
     if(command.compare("w") == 0){
-        cout<<"we w"<<endl;
         moveWestCommand(player, rooms); //check west from player's current room and find anything
         return;
     }
     if(command.compare("i") == 0){
-        cout<<"we i"<<endl;
         inventoryCommand(player); //player has inventory data as a vector
         return;
     }
@@ -695,8 +691,18 @@ void attackAction(string command, Player* player, Item* item, Creature* creature
         //itemToMove -> setName = 
         Item* itemToMove = searchItems(Junkyard->getItems(), itemname);
         if(itemToMove){
-            player->getRoom()->setItem(itemToMove);
+            cout<<itemname<<endl;
+            Room* roomToAdd = searchRoom(rooms, newPlace);
+            roomToAdd->setItem(itemToMove);
             Junkyard->deleteItem(itemToMove->getName());
+            return;
+        }
+        Creature* creatureToMove = searchCreatures(Junkyard->getCreatures(), itemname);
+        if(creatureToMove){
+            cout<<"creature:"<<itemname<<endl;
+            Room* roomToAdd = searchRoom(rooms, newPlace);
+            roomToAdd->setCreature(creatureToMove);
+            //Junkyard->deleteCreature(itemname);
             return;
         }
     }
@@ -707,8 +713,17 @@ void attackAction(string command, Player* player, Item* item, Creature* creature
         if(!ifExists){
             Junkyard->setCreature(creatureToDelete);
         }
-        player->getRoom()->deleteCreature(creaturename);
-        
+        for(Room* roomT : rooms){
+            for(Creature* creatureT : roomT->getCreatures()){
+                if((creatureT->getName()).compare(creaturename) == 0){
+                    roomT->deleteCreature(creaturename);
+                    return;
+                }
+            }
+        }
+    }if(command.compare("Game Over") == 0){
+        gameOverCommand();
+        return;
     }
     return;
 }
@@ -733,16 +748,27 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
     for(string str : creatureToFind->getVulnerabilities()){
         if(str.compare(item) == 0){
             for(Attack* att: creatureToFind->getAttacks()){
-                for(Condition* cond : att->getCondition()){
-                    if(attackCondition(cond, itemToFind)){
-                        for(string str : att->getPrint()){
-                            cout<<str<<endl;
+                cout<<"You assault "<<creature<<" with "<<item<<endl;
+                if(att->getCondition().size() > 0){
+                    for(Condition* cond : att->getCondition()){
+                        if(attackCondition(cond, itemToFind)){
+                            for(string str : att->getPrint()){
+                                cout<<str<<endl;
+                            }
+                            for(string str : att->getAction()){
+                                attackAction(str, player, itemToFind, creatureToFind, rooms);
+                            }
+                            return;
                         }
-                        for(string str : att->getAction()){
-                            attackAction(str, player, itemToFind, creatureToFind, rooms);
-                        }
-                        return;
                     }
+                }else{
+                    for(string str : att->getPrint()){
+                        cout<<str<<endl;
+                    }
+                    for(string str : att->getAction()){
+                        attackAction(str, player, itemToFind, creatureToFind, rooms);
+                    }
+                    return;
                 }
             }
         }
