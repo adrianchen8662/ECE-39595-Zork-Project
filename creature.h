@@ -14,13 +14,16 @@ public:
     void setAttack(Attack* attack);
     void setTrigger(Trigger* trigger);
     string getName();
+    vector<Attack*> getAttacks();
+    vector<string> getVulnerabilities();
     vector<Trigger*> getTriggers();
 private:
     string name;
     string status;
     vector<string> vul;
-    Attack* attack;
+    vector<Attack*> attacks;
     vector<Trigger*> triggers;
+    vector<Condition*> conditions;
 };
 
 #endif

@@ -26,10 +26,10 @@ int main(int argc, char** args) {
 	}
 
 	// call the parser to parse the XML
+	Room* junkyard = new Room();
+	std::vector<Room*> rooms = loadXMLFile(filename, junkyard);
 
-	std::vector<Room*> rooms = loadXMLFile(filename);
-
-	Room* junkyard = new Room(); // room to store all the things that were deleted, except for Rooms
+	 // room to store all the things that were deleted, except for Rooms
 
 	// print all results
 	/*

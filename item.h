@@ -16,6 +16,7 @@ public:
     void setTrigger(Trigger* trigger);
     string getName();
     string getWriting();
+    string getStatus();
     Turnon* getTurnon();
     vector<Trigger*> getTriggers();
 private:

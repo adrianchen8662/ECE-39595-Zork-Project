@@ -20,5 +20,5 @@ Turnon* loadItemTurnOn(TiXmlElement* childElement);
 Container* loadContainers(TiXmlElement* element, TiXmlElement* rootElement);
 Attack* loadAttack(TiXmlElement* element);
 Creature* loadCreatures(TiXmlElement* element);
-vector<Room*> loadXMLFile (const std::string filename);
+vector<Room*> loadXMLFile (const std::string filename, Room* junkYard);
 

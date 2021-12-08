@@ -98,3 +98,15 @@ void Room::deleteItem(string object)
     this->items.erase(this->items.begin() + i);
     
 }
+
+void Room::deleteCreature(string creature)
+{
+    int i = 0;
+    for(; i < (int)(this->creatures.size()); i++){
+        if(this->creatures[i]->getName() == creature){
+            break;
+        }
+    }  
+    this->creatures.erase(this->creatures.begin() + i);
+    
+}

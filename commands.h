@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "border.h"
+#include "attack.h"
 using namespace std;
 
 bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR);
@@ -27,7 +28,7 @@ void openCommand(Player* player, string command);
 void readCommand(Player* player, string item);
 void putCommand(Player* player, string item, string container);
 void turnOnCommand(Player* player, vector<Room*> rooms, string item);
-void attackCommand(Player* player, string creature, string item);
+void attackCommand(Player* player, string creature, string item, vector<Room*> rooms);
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms);
 Trigger* findCommands(vector<Trigger*> triggers, string command);
 

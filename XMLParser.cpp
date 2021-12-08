@@ -327,9 +327,10 @@ Creature* loadCreatures(TiXmlElement* element)
     return creature;
 }
 
-vector<Room*> loadXMLFile (const std::string filename)
+vector<Room*> loadXMLFile (const std::string filename, Room* junkYard)
 {
     vector <Room*> rooms;
+    
     TiXmlDocument doc(filename); //this is literally a std::sting
     doc.LoadFile();
     TiXmlElement* rootElement = doc.RootElement();
@@ -347,6 +348,14 @@ vector<Room*> loadXMLFile (const std::string filename)
                 {
                     Room* room = loadRoom(childElement, rootElement);
                     rooms.push_back(room);
+                }else if(name == "item")
+                {
+                    Item* item = loadItems(childElement);
+                    junkYard->setItem(item);
+                }else if(name == "creature")
+                {
+                    Creature* creature = loadCreatures(childElement);
+                    junkYard->setCreature(creature);
                 }
             }
         }

@@ -51,3 +51,7 @@ Turnon* Item::getTurnon()
 {
     return turnon;
 }
+
+string Item::getStatus(){
+    return status;
+}

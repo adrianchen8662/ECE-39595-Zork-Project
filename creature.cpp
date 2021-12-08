@@ -18,7 +18,7 @@ void Creature::setVulnerability(string vul){
     this -> vul.push_back(vul);
 }
 void Creature::setAttack(Attack* attack){
-    this -> attack = attack;
+    this -> attacks.push_back(attack);
 }
 void Creature::setTrigger(Trigger* trigger){
     this -> triggers.push_back(trigger);
@@ -32,4 +32,12 @@ vector<Trigger*> Creature::getTriggers()
 string Creature::getName()
 {
     return name;
+}
+
+vector<string> Creature::getVulnerabilities(){
+    return this->vul;
+}
+
+vector<Attack*> Creature::getAttacks(){
+    return this->attacks;
 }

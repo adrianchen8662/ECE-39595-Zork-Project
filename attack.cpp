@@ -16,3 +16,15 @@ void Attack::setPrint(string print){
 void Attack::setAction(string action){
     this->actions.push_back(action);
 }
+
+vector<string> Attack::getPrint(){
+    return this->print;
+}
+
+vector<string> Attack::getAction(){
+    return this->actions;
+}
+
+vector<Condition*> Attack::getCondition(){
+    return this->condition;
+}
