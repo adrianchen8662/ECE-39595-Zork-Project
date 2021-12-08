@@ -63,3 +63,15 @@ void Container::setClosed(){
 int Container::getOpen(){
     return this->open;
 }
+
+void Container::deleteItem(string object)
+{
+    int i = 0;
+    for(; i < (int)(this->items.size()); i++){
+        if(this->items[i]->getName() == object){
+            break;
+        }
+    }  
+    this->items.erase(this->items.begin() + i);
+    
+}

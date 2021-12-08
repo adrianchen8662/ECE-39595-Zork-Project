@@ -592,13 +592,19 @@ void dropCommand(Player* player, string item)
 void openCommand(Player* player, string command)
 {
     Container* container = searchContainers(player->getRoom()->getContainers(), command);
+    if(!container){
+        cout<<command<<" not in room"<<endl;
+        return;
+    }
     container->setOpen();
     cout<<container->getName()<<" contains ";
     for(auto* i : container->getItems()){
         cout<<i->getName();
         player->getRoom()->setItem(i);
+        container->deleteItem(i->getName());
     }
     cout<<endl;
+    return;
 }
 
 void readCommand(Player* player, string item)
@@ -629,6 +635,9 @@ void putCommand(Player* player, string item, string container)
         return;
     }
     addCommand(containerToFind, itemToFind);
+    openCommand(player, container);
+    player->removeItem(itemToFind);
+    //containerToFind->deleteItem(itemToFind);
     //deleteCommand(itemToFind);
     // place item in container
     // delete item from player's inventory
@@ -698,6 +707,7 @@ void attackAction(string command, Player* player, Item* item, Creature* creature
         if(!ifExists){
             Junkyard->setCreature(creatureToDelete);
         }
+        player->getRoom()->deleteCreature(creaturename);
         
     }
     return;
@@ -725,12 +735,10 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
             for(Attack* att: creatureToFind->getAttacks()){
                 for(Condition* cond : att->getCondition()){
                     if(attackCondition(cond, itemToFind)){
-                        cout<<"where"<<endl;
                         for(string str : att->getPrint()){
                             cout<<str<<endl;
                         }
                         for(string str : att->getAction()){
-                            cout<<str<<endl;
                             attackAction(str, player, itemToFind, creatureToFind, rooms);
                         }
                         return;
