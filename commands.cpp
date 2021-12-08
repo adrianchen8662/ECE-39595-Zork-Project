@@ -27,19 +27,15 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
 // recieves a trigger to check and sees if it still applies based on conditions
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
 {
-    cout << trigger->getCondition()->getOwner() << endl; // DEBUG
     if (trigger->getCondition()->getOwner().compare("Void") != 0)
     {
         if (trigger->getCondition()->getOwner().compare("inventory") == 0) // if its in the inventory
         {
-            cout << "Enters" << endl; // DEBUG
             vector<Item*> items = player->checkInventory();
             for (Item* i: items) // if the player doesn't have it, it's ok
             {
-                cout << "looks for item" << endl; // DEBUG
                 if (i->getName() == trigger->getCondition()->getObject())
                 {
-                    cout << trigger->getCondition()->getObject() << endl; // DEBUG
                     if (trigger->getCondition()->getHas())
                     {
                         return false;
@@ -50,7 +46,6 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                     }   
                 }
             }
-            cout << "not in inventory" << endl; // DEBUG
         }
         else
         {
@@ -87,11 +82,8 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
             vector<Creature*> creatures = i->getCreatures();
             for (Creature* x: creatures)
             {
-                cout << x->getName() << endl;
-                cout << trigger->getCondition()->getObject() << endl;
                 if (x->getName().compare(trigger->getCondition()->getObject()) == 0)
                 {
-                    cout << "lock wants creatures" << endl; // DEBUG
                     return false;
                 }
             }
@@ -100,7 +92,6 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
             {
                 if (x->getName().compare(trigger->getCondition()->getObject()) == 0)
                 {
-                    cout << "lock wants items" << endl; // DEBUG
                     return false;
                 }
             }
@@ -112,19 +103,16 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                 {
                     if (y->getName().compare(trigger->getCondition()->getObject()) == 0)
                     {
-                        cout << "lock wants container in item" << endl; // DEBUG
                         return false;
                     }
                 }
             }
         }
     }
-
-    cout << "should come out here" << endl; // DEBUG
     return false;
 }
 
-void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated)
+void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated, string action)
 {
     for (Room* a: rooms)
         {
@@ -134,9 +122,9 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated)
                 {
                     if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
                     {
-                        if (c->getCondition()->getStatus().compare("cock") == 0)
+                        if (c->getCondition()->getStatus().compare(action) == 0)
                         {
-
+                            cout << c->getPrint() << endl;
                         }
                     }
                 }
@@ -145,19 +133,37 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated)
             {
                 for (Trigger* c: b->getTriggers())
                 {
-                    c->getCondition();
+                    if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    {
+                        if (c->getCondition()->getStatus().compare(action) == 0)
+                        {
+                            cout << c->getPrint() << endl;
+                        }
+                    }
                 }
             }
             for (Container* b: a->getContainers())
             {
                 for (Trigger* c: b->getTriggers())
                 {
-                    c->getCondition();
+                    if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    {
+                        if (c->getCondition()->getStatus().compare(action) == 0)
+                        {
+                            cout << c->getPrint() << endl;
+                        }
+                    }
                 }
             }
             for (Trigger* b: a->getTriggers())
             {
-                b->getCondition();
+                if (b->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                {
+                    if (b->getCondition()->getStatus().compare(action) == 0)
+                    {
+                        cout << b->getPrint() << endl;
+                    }
+                }
             }
             for (Container* b: a->getContainers())
             {
@@ -165,7 +171,13 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated)
                 {
                     for (Trigger* d: c->getTriggers())
                     {
-                        d->getCondition();
+                        if (d->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                        {
+                           if (d->getCondition()->getStatus().compare(action) == 0)
+                            {
+                                cout << d->getPrint() << endl;
+                            }
+                        }
                     }
                 }
             }
@@ -612,14 +624,9 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
     }
     //then, attempt to turn on, whatever that means
     updateCommand(player,itemToFind->getTurnon()->getAction());
-
-    itemToFind->getTurnon();
-
-    conditionFromTurnOn(player, rooms, itemToFind);
-
-    cout << itemToFind->getTurnon()->getAction() << endl;
+    cout << itemToFind->getTurnon()->getPrint() << endl;
+    conditionFromTurnOn(player, rooms, itemToFind, itemToFind->getTurnon()->getAction().substr(itemToFind->getTurnon()->getAction().find(" to ") + 4));
 }
-
 
 void attackCommand(Player* player, string creature, string item)
 {
