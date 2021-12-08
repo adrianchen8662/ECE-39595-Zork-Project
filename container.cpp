@@ -6,6 +6,7 @@ using namespace std;
 
 Container::Container(){
     //cout << "Created Container";
+    setClosed();
 }
 
 void Container::setName(string name){
@@ -49,4 +50,16 @@ vector<Item*> Container::getItems()
 string Container::getName()
 {
     return this->name;
+}
+
+void Container::setOpen(){
+    this->open = 1;
+}
+
+void Container::setClosed(){
+    this->open = 0;
+}
+
+int Container::getOpen(){
+    return this->open;
 }

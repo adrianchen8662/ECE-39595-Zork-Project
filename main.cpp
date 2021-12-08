@@ -52,9 +52,10 @@ int main(int argc, char** args) {
 	cout << "Game over" << endl;
 
 	// free memory
-	for (Room* student : rooms) {
-		delete student;
+	for (Room* room : rooms) {
+		delete room;
 	}
+	delete junkyard;
 	rooms.clear(); // not strictly required, I just like to remove references to pointers after deleting them
 
 	// wait for key press to exit, added for the sake of visual studio as the command window closes after the program finishes

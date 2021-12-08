@@ -10,6 +10,8 @@ public:
     Container();
     void setName(string name);
     void setStatus(string status);
+    void setOpen();
+    void setClosed();
     void setDesc(string desc);
     void setAccept(string accept);
     void setItem(Item* item);
@@ -17,9 +19,11 @@ public:
     vector<Trigger*> getTriggers();
     vector<Item*> getItems();
     string getName();
+    int getOpen();
     void deleteItem(string object);
 private:
     string name;
+    int open;
     string status;
     string desc;
     vector<string> accept;

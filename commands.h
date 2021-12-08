@@ -23,7 +23,7 @@ void addCommand(T* temp, Item* item);
 void deleteCommand(Item* item);
 void updateCommand(Player* player, string action);
 void gameOverCommand();
-void openCommand(Player* player, string item);
+void openCommand(Player* player, string command);
 void readCommand(Player* player, string item);
 void putCommand(Player* player, string item, string container);
 void turnOnCommand(Player* player, string item);

@@ -358,8 +358,8 @@ Room* searchRoom(vector<Room*> rooms, string name)
     return NULL;
 }
 
-Item* searchItems(vector<Item*> items, string name)
-{
+
+Item* searchItems(vector<Item*> items, string name){
     for (Item* i: items)
     {
         if (i->getName().compare(name) == 0)
@@ -482,7 +482,6 @@ void takeCommand(Player* player, string item)
         return;
     }
     player->setItem(itemToFind);
-    deleteCommand(itemToFind);
     player->getRoom()->deleteItem(itemToFind->getName()); //use pocket dimension instead
     cout << "Item " + item + " added to the inventory" << endl;
 }
@@ -501,9 +500,16 @@ void dropCommand(Player* player, string item)
     cout << item + " dropped" << endl;
 }
 
-void openCommand(Player* player, string item)
+void openCommand(Player* player, string command)
 {
-
+    Container* container = searchContainers(player->getRoom()->getContainers(), command);
+    container->setOpen();
+    cout<<container->getName()<<" contains ";
+    for(auto* i : container->getItems()){
+        cout<<i->getName();
+        player->getRoom()->setItem(i);
+    }
+    cout<<endl;
 }
 
 void readCommand(Player* player, string item)
@@ -534,7 +540,7 @@ void putCommand(Player* player, string item, string container)
         return;
     }
     addCommand(containerToFind, itemToFind);
-    deleteCommand(itemToFind);
+    //deleteCommand(itemToFind);
     // place item in container
     // delete item from player's inventory
 }
