@@ -26,7 +26,7 @@ void updateCommand(Player* player, string action);
 void gameOverCommand();
 void openCommand(Player* player, string command);
 void readCommand(Player* player, string item);
-void putCommand(Player* player, string item, string container);
+void putCommand(Player* player, vector<Room*> rooms, string item, string container);
 void turnOnCommand(Player* player, vector<Room*> rooms, string item);
 void attackCommand(Player* player, string creature, string item, vector<Room*> rooms);
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms);

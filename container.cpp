@@ -75,3 +75,8 @@ void Container::deleteItem(string object)
     this->items.erase(this->items.begin() + i);
     
 }
+
+string Container::getStatus()
+{
+    return this->status;
+}
