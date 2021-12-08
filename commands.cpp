@@ -628,7 +628,6 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
     conditionFromTurnOn(player, rooms, itemToFind, itemToFind->getTurnon()->getAction().substr(itemToFind->getTurnon()->getAction().find(" to ") + 4));
 }
 
-<<<<<<< HEAD
 bool attackCondition(Condition* condition, Item* item){
     if(condition->getObject().compare(item->getName()) == 0){
         if(condition->getStatus().compare(item->getStatus()) == 0){
@@ -685,9 +684,6 @@ void attackAction(string command, Player* player, Item* item, Creature* creature
 }
 
 void attackCommand(Player* player, string creature, string item, vector<Room*> rooms)
-=======
-void attackCommand(Player* player, string creature, string item)
->>>>>>> refs/remotes/origin/main
 {
     // check if item exists in inventory
     Item* itemToFind = searchItems(player->checkInventory(), item);
@@ -717,6 +713,7 @@ void attackCommand(Player* player, string creature, string item)
                             cout<<str<<endl;
                             attackAction(str, player, itemToFind, creatureToFind, rooms);
                         }
+                        return;
                     }
                 }
             }
