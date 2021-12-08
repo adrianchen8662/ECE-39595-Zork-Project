@@ -395,7 +395,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             cout << "missing item name" << endl;
             return false;
         }
-        attackCommand(player, command.substr(7,command.find(" with ") - 7), command.substr(command.find(" with ") + 6));
+        attackCommand(player, command.substr(7,command.find(" with ") - 7), command.substr(command.find(" with ") + 6), rooms);
         return false;
     }
     cout << "command not recognized" << endl;
@@ -620,8 +620,62 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
     cout << itemToFind->getTurnon()->getAction() << endl;
 }
 
+bool attackCondition(Condition* condition, Item* item){
+    if(condition->getObject().compare(item->getName()) == 0){
+        if(condition->getStatus().compare(item->getStatus()) == 0){
+            return true;
+        }
+    }
+    return false;
+}
 
-void attackCommand(Player* player, string creature, string item)
+void attackAction(string command, Player* player, Item* item, Creature* creature, vector<Room*>rooms){
+     if(command.compare("n") == 0){
+        moveNorthCommand(player, rooms);
+        return;
+    }
+    if(command.compare("s") == 0){
+        moveSouthCommand(player, rooms);
+        return;
+    }
+    if(command.compare("e") == 0){
+        moveEastCommand(player, rooms);
+        return;
+    }
+    if(command.compare("w") == 0){
+        cout<<"we w"<<endl;
+        moveWestCommand(player, rooms); //check west from player's current room and find anything
+        return;
+    }
+    if(command.compare("i") == 0){
+        cout<<"we i"<<endl;
+        inventoryCommand(player); //player has inventory data as a vector
+        return;
+    }
+    if((command.substr(0,3)).compare("Add") == 0){
+        string itemname = command.substr(4,command.find(" to ") - 4);
+        string newPlace = command.substr(command.find(" to ") + 4);
+        //itemToMove -> setName = 
+        Item* itemToMove = searchItems(Junkyard->getItems(), itemname);
+        if(itemToMove){
+            player->getRoom()->setItem(itemToMove);
+            Junkyard->deleteItem(itemToMove->getName());
+            return;
+        }
+    }
+    if((command.substr(0,6)).compare("Delete") == 0){
+        string creaturename = command.substr(7);
+        Creature* creatureToDelete = searchCreatures(player->getRoom()->getCreatures(), creaturename);
+        Creature* ifExists = searchCreatures(Junkyard->getCreatures(), creaturename);
+        if(!ifExists){
+            Junkyard->setCreature(creatureToDelete);
+        }
+        
+    }
+    return;
+}
+
+void attackCommand(Player* player, string creature, string item, vector<Room*> rooms)
 {
     // check if item exists in inventory
     Item* itemToFind = searchItems(player->checkInventory(), item);
@@ -638,7 +692,26 @@ void attackCommand(Player* player, string creature, string item)
         return;
     }
     //check if item interacts with creature
-    
+    for(string str : creatureToFind->getVulnerabilities()){
+        if(str.compare(item) == 0){
+            for(Attack* att: creatureToFind->getAttacks()){
+                for(Condition* cond : att->getCondition()){
+                    if(attackCondition(cond, itemToFind)){
+                        cout<<"where"<<endl;
+                        for(string str : att->getPrint()){
+                            cout<<str<<endl;
+                        }
+                        for(string str : att->getAction()){
+                            cout<<str<<endl;
+                            attackAction(str, player, itemToFind, creatureToFind, rooms);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout<<"Error"<<endl;
+    return;
 }
 
 /*
