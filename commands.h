@@ -26,7 +26,7 @@ void gameOverCommand();
 void openCommand(Player* player, string item);
 void readCommand(Player* player, string item);
 void putCommand(Player* player, string item, string container);
-void turnOnCommand(Player* player, string item);
+void turnOnCommand(Player* player, vector<Room*> rooms, string item);
 void attackCommand(Player* player, string creature, string item);
 bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms);
 Trigger* findCommands(vector<Trigger*> triggers, string command);

@@ -124,6 +124,54 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
     return false;
 }
 
+void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated)
+{
+    for (Room* a: rooms)
+        {
+            for (Item* b: a->getItems())
+            {
+                for (Trigger* c: b->getTriggers())
+                {
+                    if (c->getCondition()->getObject().compare(itemUpdated->getName()) == 0)
+                    {
+                        if (c->getCondition()->getStatus().compare("cock") == 0)
+                        {
+
+                        }
+                    }
+                }
+            }
+            for (Creature* b: a->getCreatures())
+            {
+                for (Trigger* c: b->getTriggers())
+                {
+                    c->getCondition();
+                }
+            }
+            for (Container* b: a->getContainers())
+            {
+                for (Trigger* c: b->getTriggers())
+                {
+                    c->getCondition();
+                }
+            }
+            for (Trigger* b: a->getTriggers())
+            {
+                b->getCondition();
+            }
+            for (Container* b: a->getContainers())
+            {
+                for (Item* c: b->getItems())
+                {
+                    for (Trigger* d: c->getTriggers())
+                    {
+                        d->getCondition();
+                    }
+                }
+            }
+        }
+}
+
 bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR)
 {
     Junkyard = JunkyardR;
@@ -169,8 +217,11 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
         triggerToFind = findCommands(i->getTriggers(), command);
         if (triggerToFind != NULL)
         {
+            if(conditionChecker(triggerToFind, player, rooms))
+            {
             cout << triggerToFind->getPrint() << endl;
             return false;
+            }
         }
     }
 
@@ -181,8 +232,11 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
         triggerToFind = findCommands(i->getTriggers(), command);
         if (triggerToFind != NULL)
         {
+            if(conditionChecker(triggerToFind, player, rooms))
+            {
             cout << triggerToFind->getPrint() << endl;
             return false;
+            }
         }
     }
     
@@ -194,8 +248,11 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             triggerToFind = findCommands(j->getTriggers(), command);
             if (triggerToFind != NULL)
             {
+                if (conditionChecker(triggerToFind, player, rooms))
+                {
                 cout << triggerToFind->getPrint() << endl;
                 return false;
+                }
             }
         }
     }
@@ -317,7 +374,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             cout << "no item named to turn on" << endl;
             return false;
         }
-        turnOnCommand(player, command.substr(8));
+        turnOnCommand(player, rooms, command.substr(8));
         return false;
     }
     if ((command.substr(0,6)).compare("attack") == 0)
@@ -539,7 +596,7 @@ void putCommand(Player* player, string item, string container)
     // delete item from player's inventory
 }
 
-void turnOnCommand(Player* player, string item)
+void turnOnCommand(Player* player, vector<Room*> rooms, string item)
 {
     Item* itemToFind = searchItems(player->checkInventory(), item);
     if (itemToFind == NULL)
@@ -549,6 +606,12 @@ void turnOnCommand(Player* player, string item)
     }
     //then, attempt to turn on, whatever that means
     updateCommand(player,itemToFind->getTurnon()->getAction());
+
+    itemToFind->getTurnon()
+
+    conditionFromTurnOn(player, rooms, itemToFind);
+
+    cout << itemToFind->getTurnon()->getAction() << endl;
 }
 
 
@@ -608,7 +671,7 @@ void updateCommand(Player* player, string action)
         itemToFind = searchItems(player->getRoom()->getItems(), itemname);
         if (itemToFind == NULL)
         {
-            cout << "internal command updateCommand failed" << endl;
+            cout << "internal command update Command failed" << endl;
             return;
         }
     }
