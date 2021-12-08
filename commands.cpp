@@ -607,7 +607,7 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
     //then, attempt to turn on, whatever that means
     updateCommand(player,itemToFind->getTurnon()->getAction());
 
-    itemToFind->getTurnon()
+    itemToFind->getTurnon();
 
     conditionFromTurnOn(player, rooms, itemToFind);
 
