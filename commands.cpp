@@ -633,13 +633,41 @@ void inventoryCommand(Player* player)
     }
 }
 
+vector<Container*> searchOpenContainers(vector<Container*> containers)
+{
+    vector<Container*> res;
+    for (Container* i: containers)
+    {
+        if (i->getOpen())
+        {
+            res.push_back(i);
+        }
+    }
+    return res;
+}
+
 void takeCommand(Player* player, string item)
 {
     Item* itemToFind = searchItems(player->getRoom()->getItems(), item);
-    if (itemToFind == NULL)
+    vector<Container*> containersInRoom = searchOpenContainers(player->getRoom()->getContainers());
+    if (itemToFind == NULL && containersInRoom.size() == 0)
     {
         cout << item + " not in room" << endl;
         return;
+    }
+    if(itemToFind == NULL){
+        for(auto i : containersInRoom){
+            for(auto j: i->getItems()){
+                if(j->getName().compare(item) == 0){
+                    player->setItem(j);
+                    i->deleteItem(item);
+                    cout << "Item " + item + " added to the inventory" << endl;
+                    return;
+                }
+            }
+            cout << item + " not in room" << endl;
+            return;
+        }
     }
     player->setItem(itemToFind);
     player->getRoom()->deleteItem(itemToFind->getName()); //use pocket dimension instead
@@ -671,8 +699,8 @@ void openCommand(Player* player, string command)
     cout<<container->getName()<<" contains ";
     for(auto* i : container->getItems()){
         cout<<i->getName();
-        player->getRoom()->setItem(i);
-        container->deleteItem(i->getName());
+        //player->getRoom()->setItem(i);
+        //container->deleteItem(i->getName());
     }
     cout<<endl;
     return;
@@ -686,7 +714,8 @@ void readCommand(Player* player, string item)
         cout << item + " not in inventory" << endl;
         return;
     }
-    cout << itemToFind->getWriting() << endl;
+    string toPrint = itemToFind->getWriting().length() == 0 ? "Nothing Written" : itemToFind->getWriting();
+    cout << toPrint << endl;
 }
 
 void putCommand(Player* player, string item, string container)
@@ -822,6 +851,7 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
     //check if item interacts with creature
     for(string str : creatureToFind->getVulnerabilities()){
         if(str.compare(item) == 0){
+            cout<<"Is vul\n";
             for(Attack* att: creatureToFind->getAttacks()){
                 cout<<"You assault "<<creature<<" with "<<item<<endl;
                 if(att->getCondition().size() > 0){
@@ -846,8 +876,18 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
                     return;
                 }
             }
+            // for(auto i : creatureToFind->getTriggers()){
+            //     if(i->getCommand().compare("attack "+creature+" with "+item) == 0){
+            //         cout<<"Command match";
+            //         if(conditionChecker(i, player, rooms)){
+            //             cout<<"TRIGGERED\n";
+            //         }
+            //     }
+                
+            // }
         }
     }
+    
     cout<<"Error"<<endl;
     return;
 }
