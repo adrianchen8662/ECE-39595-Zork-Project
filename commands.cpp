@@ -1,12 +1,6 @@
 #include "commands.h"
 
-// hi ainesh
-// I added a conditionchecker function that takes in a trigger, the player and the room vector
-// use that to put it into whichCommand that tests if the condition inside the trigger found applies
-// bool value return, if true it means the condition applies if false it means the condition doesn't apply
-// I'm also missing a couple functions that i pseudocoded but havent written
-// openCommand, putCommand, attackCommand, addCommand, deleteCommand
-// ty <3
+//TODO: fix the triggerhandling for triggersample, it grabs the trigger before it can print
 
 bool gameOver = false;
 Room* Junkyard = NULL;
@@ -44,9 +38,13 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                     else
                     {
                         return true;
-                    }   
+                    }
                 }
             }
+            if (trigger->getCondition()->getHas() == false)
+            {
+                return false;
+            } 
         }
         else
         {
@@ -277,6 +275,8 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated,
     }
 }
 
+
+
 bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR)
 {
     Junkyard = JunkyardR;
@@ -299,7 +299,6 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             return false;
         }
     }
-
     // searches triggers in inventory
     vector<Item*> items = player->checkInventory();
     for (Item* i: items)
