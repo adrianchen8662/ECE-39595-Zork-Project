@@ -41,7 +41,6 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                     }
                 }
             }
-            cout << trigger->getCondition()->getHas() << endl;
             if (trigger->getCondition()->getHas() == false)
             {
                 return false;
@@ -300,7 +299,6 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             return false;
         }
     }
-    cout << "didn't find triggers in room" << endl;
     // searches triggers in inventory
     vector<Item*> items = player->checkInventory();
     for (Item* i: items)
@@ -315,7 +313,6 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             }
         }
     }
-    cout << "didn't find triggers in inventory" << endl;
 
     //searches triggers in creatures in room
     vector<Creature*> creatures = player->getRoom()->getCreatures();
