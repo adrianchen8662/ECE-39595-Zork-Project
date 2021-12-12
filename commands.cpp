@@ -8,6 +8,7 @@
 // openCommand, putCommand, attackCommand, addCommand, deleteCommand
 // ty <3
 
+bool gameOver = false;
 Room* Junkyard = NULL;
 
 // helper function that searches a vector of triggers if the command matches
@@ -360,7 +361,14 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             }
         }
     }
-    
+    if (command.compare("axe") == 0)
+    {
+        for (Item* i: player->checkInventory())
+        {
+            cout << i->getName() + ": " + i->getStatus() << endl;
+            return false;
+        }
+    }
     if (command.compare("where") == 0) //debug command
     {
         cout << player->getRoom()->getName() << endl;
@@ -523,6 +531,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             return false;
         }
         attackCommand(player, command.substr(7,command.find(" with ") - 7), command.substr(command.find(" with ") + 6), rooms);
+        if (gameOver == true)
+        {
+            return true;
+        }
         return false;
     }
     cout << "command not recognized" << endl;
@@ -846,6 +858,7 @@ void attackAction(string command, Player* player, Item* item, Creature* creature
         }
     }if(command.compare("Game Over") == 0){
         gameOverCommand();
+        gameOver = true;
         return;
     }
     return;
@@ -938,6 +951,8 @@ void deleteCommand(Item* item)
 void updateCommand(Player* player, string action)
 {
     string itemname = action.substr(7,action.find(" to ") - 7);
+    cout << action << endl;
+    cout << action.substr(7,action.find(" to ") -7);
     string status = action.substr(action.find(" to ") + 4);
     // THIS ONLY CHECKS THE PLAYER INVENTORY AND ROOM THEY INHABIT, NOT GLOBAL SEARCH
     Item* itemToFind = searchItems(player->checkInventory(),itemname);
@@ -957,4 +972,5 @@ void gameOverCommand()
 {
     // deleteCommand on everything
     cout << "Victory!" << endl;
+    return;
 }
