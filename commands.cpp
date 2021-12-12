@@ -950,6 +950,15 @@ void deleteCommand(Item* item)
 // update <object> to <status>
 void updateCommand(Player* player, string action)
 {
+    if(action.substr(0,4).compare("drop") == 0){
+        string item = action.substr(5);
+        //cout<< "dropping"<<action.substr(5)<<endl;
+        Item* droppedItem = searchItems(player->checkInventory(), item);
+        player->getRoom()->setItem(droppedItem);
+        player->removeItem(droppedItem);
+        //dropCommand(player, action.substr(4));
+        return;
+    }
     string itemname = action.substr(7,action.find(" to ") - 7);
     cout << action << endl;
     cout << action.substr(7,action.find(" to ") -7);
