@@ -1,8 +1,9 @@
 *.pdf
-XMLParseDemo/
+XMLParseDemo
 Overview/
 include/
 .vscode/
 *.o
 DemoFiles/
 *.xml
+Makefile

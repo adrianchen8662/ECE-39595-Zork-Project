@@ -21,6 +21,7 @@ public:
     string getName();
     int getOpen();
     void deleteItem(string object);
+    string getStatus();
 private:
     string name;
     int open;

@@ -109,7 +109,7 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
             }
         }
     }
-    return false;
+    return true;
 }
 // has object owner
 void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container* container)
@@ -124,6 +124,10 @@ void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container
                 {
                     if (c->getCondition()->getOwner().compare(container->getName()) == 0)
                     {
+                        for (string d: c->getActions())
+                        {
+                            b->setStatus(d.substr(d.find(" to ") + 4));
+                        }
                         cout << c->getPrint() << endl;
                     }
                 }
@@ -137,6 +141,10 @@ void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container
                 {
                     if (c->getCondition()->getOwner().compare(container->getName()) == 0)
                     {
+                        for (string d: c->getActions())
+                        {
+                            b->setStatus(d.substr(d.find(" to ") + 4));
+                        }
                         cout << c->getPrint() << endl;
                     }
                 }
@@ -150,6 +158,10 @@ void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container
                 {
                     if (c->getCondition()->getOwner().compare(container->getName()) == 0)
                     {
+                        for (string d: c->getActions())
+                        {
+                            b->setStatus(d.substr(d.find(" to ") + 4));
+                        }
                         cout << c->getPrint() << endl;
                     }
                 }
@@ -161,6 +173,10 @@ void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container
             {
                 if (b->getCondition()->getOwner().compare(container->getName()) == 0)
                 {
+                    for (string c: b->getActions())
+                    {
+                        a->setStatus(c.substr(c.find(" to ") + 4));
+                    }
                     cout << b->getPrint() << endl;
                 }
             }
@@ -175,6 +191,10 @@ void conditionFromPut(Player* player, vector<Room*> rooms, Item* item, Container
                     {
                         if (d->getCondition()->getOwner().compare(container->getName()) == 0)
                         {
+                            for (string e: d->getActions())
+                            {
+                                b->setStatus(e.substr(e.find(" to ") + 4));
+                            }
                             cout << d->getPrint() << endl;
                         }
                     }
@@ -470,7 +490,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             cout << "missing item name" << endl;
             return false;
         }
-        putCommand(player, command.substr(4,command.find(" in ") - 4), command.substr(command.find(" in ") + 4));
+        putCommand(player, rooms, command.substr(4,command.find(" in ") - 4), command.substr(command.find(" in ") + 4));
         return false;
     }
     if ((command.substr(0,7)).compare("turn on") == 0)
@@ -718,7 +738,7 @@ void readCommand(Player* player, string item)
     cout << toPrint << endl;
 }
 
-void putCommand(Player* player, string item, string container)
+void putCommand(Player* player, vector<Room*> rooms, string item, string container)
 {
     // needs add and delete, probably
     Item* itemToFind = searchItems(player->checkInventory(), item);
@@ -735,6 +755,7 @@ void putCommand(Player* player, string item, string container)
         return;
     }
     addCommand(containerToFind, itemToFind);
+    conditionFromPut(player, rooms, itemToFind, containerToFind);
     openCommand(player, container);
     player->removeItem(itemToFind);
     //containerToFind->deleteItem(itemToFind);
@@ -759,9 +780,7 @@ void turnOnCommand(Player* player, vector<Room*> rooms, string item)
 
 bool attackCondition(Condition* condition, Item* item){
     if(condition->getObject().compare(item->getName()) == 0){
-        cout<<"cond 1";
         if(condition->getStatus().compare(item->getStatus()) == 0){
-            cout<<"cond 2";
             return true;
         }
     }
