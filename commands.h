@@ -16,7 +16,7 @@ void moveSouthCommand(Player* player, vector<Room*> rooms);
 void moveEastCommand(Player* player, vector<Room*> rooms);
 void moveWestCommand(Player* player, vector<Room*> rooms);
 void inventoryCommand(Player* player);
-void takeCommand(Player* player, string item);
+void takeCommand(Player* player, string item, vector<Room*> rooms);
 void exitCommand();
 void dropCommand(Player* player, string item);
 template <typename T>

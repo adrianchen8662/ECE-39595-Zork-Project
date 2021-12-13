@@ -6,6 +6,8 @@
 #include "player.h"
 #include "commands.h"
 
+bool gameOver = false;
+
 int main(int argc, char** args) {
 	// prompt for XML file to parse
 	std::string filename;
@@ -46,8 +48,16 @@ int main(int argc, char** args) {
 	cout << player->getRoom()->getDesc() << endl;
 	while (exit != true)
 	{
+		if (gameOver)
+		{
+			exit = true;
+		}
 		getline(cin,input);
 		exit = whichCommand(input, player, rooms, junkyard);
+		if (gameOver)
+		{
+			exit = true;
+		}
 	}
 	cout << "Game over" << endl;
 

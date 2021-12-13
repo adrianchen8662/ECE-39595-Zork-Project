@@ -2,7 +2,7 @@
 
 //TODO: fix the triggerhandling for triggersample, it grabs the trigger before it can print
 
-bool gameOver = false;
+extern bool gameOver;
 Room* Junkyard = NULL;
 
 // helper function that searches a vector of triggers if the command matches
@@ -10,7 +10,6 @@ Trigger* findCommands(vector<Trigger*> triggers, string command)
 {
     for (Trigger* i: triggers)
     {
-        
         if (i->getCommand().compare(command) == 0)
         {
             return i;
@@ -79,13 +78,32 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
         {
             vector<Trigger*> triggers = i->getTriggers();
             vector<Creature*> creatures = i->getCreatures();
+            
             for (Creature* x: creatures)
             {
                 if (x->getName().compare(trigger->getCondition()->getObject()) == 0)
                 {
                     return false;
                 }
+                
+                for(Trigger* y: x->getTriggers())
+                {
+                    for (Item* items: player->checkInventory())
+                    {
+                        //cout << y->getCondition()->getObject() + " + " + items->getName() << endl;
+                        //cout << y->getCondition()->getStatus() + " + " + items->getStatus() << endl;
+                        if (y->getCondition()->getObject() == items->getName())
+                        {
+                            if (items->getStatus() != y->getCondition()->getStatus())
+                            {
+                                return false;
+                            }
+                            // cout<<"You assault "<<x->getName()<<" with "<<items->getName()<<endl;
+                        }
+                    }
+                }
             }
+
             vector<Item*> items = i->getItems();
             for (Item* x: items)
             {
@@ -280,14 +298,6 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated,
 bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* JunkyardR)
 {
     Junkyard = JunkyardR;
-    // TODO #1:
-    // make a triggerhandler function
-    // find some way to figure out the owner for conditions, probably by searching rooms
-    // find some way to figure out the has/object/status conditions
-    // has = bool, false = no, true = yes
-    // object = string, easy to find because attached to owner
-    // owner = string, hard to find, might need to search all rooms and containers plus player
-    // status = status of the object, easy to find
 
     // searches triggers in room
     Trigger* triggerToFind = findCommands(player->getRoom()->getTriggers(),command);
@@ -298,6 +308,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             cout << triggerToFind->getPrint() << endl;
             return false;
         }
+    }
+    if (gameOver)
+    {
+        return true;
     }
     // searches triggers in inventory
     vector<Item*> items = player->checkInventory();
@@ -313,7 +327,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             }
         }
     }
-
+    if (gameOver)
+    {
+        return true;
+    }
     //searches triggers in creatures in room
     vector<Creature*> creatures = player->getRoom()->getCreatures();
     for (Creature* i: creatures)
@@ -323,12 +340,22 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
         {
             if(conditionChecker(triggerToFind, player, rooms))
             {
-            cout << triggerToFind->getPrint() << endl;
-            return false;
+                cout << triggerToFind->getPrint() << endl;
+                for (string q: triggerToFind->getActions())
+                {
+                    if (q == "Game Over")
+                    {
+                        gameOverCommand();
+                    }
+                }
+                return false;
             }
         }
     }
-
+    if (gameOver)
+    {
+        return true;
+    }
     //searches triggers in containers in room
     vector<Container*> containers = player->getRoom()->getContainers();
     for (Container* i: containers)
@@ -343,7 +370,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             }
         }
     }
-    
+    if (gameOver)
+    {
+        return true;
+    }
     // searches triggers in items in containers in room
     for (Container* i : containers)
     {
@@ -359,6 +389,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
                 }
             }
         }
+    }
+    if (gameOver)
+    {
+        return true;
     }
     if (command.compare("axe") == 0)
     {
@@ -436,7 +470,7 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             cout << "no item named to take" << endl;
             return false;
         }
-        takeCommand(player, command.substr(5)); //player has room data, just look for that room
+        takeCommand(player, command.substr(5), rooms); //player has room data, just look for that room
         return false;
     }
     if (command.compare("open exit") == 0)
@@ -535,6 +569,10 @@ bool whichCommand(string command, Player* player, vector<Room*> rooms, Room* Jun
             return true;
         }
         return false;
+    }
+    if (gameOver)
+    {
+        return true;
     }
     cout << "command not recognized" << endl;
     return false;
@@ -677,7 +715,7 @@ vector<Container*> searchOpenContainers(vector<Container*> containers)
     return res;
 }
 
-void takeCommand(Player* player, string item)
+void takeCommand(Player* player, string item, vector<Room*> rooms)
 {
     Item* itemToFind = searchItems(player->getRoom()->getItems(), item);
     vector<Container*> containersInRoom = searchOpenContainers(player->getRoom()->getContainers());
@@ -693,6 +731,37 @@ void takeCommand(Player* player, string item)
                     player->setItem(j);
                     i->deleteItem(item);
                     cout << "Item " + item + " added to the inventory" << endl;
+                    
+                    for (Room* i: rooms)
+                    {
+                        //cout << "first onion" << endl;
+                        for (Creature* a: i->getCreatures())
+                        {
+                            //cout << "second onion" << endl;
+                            for (Trigger* b: a->getTriggers())
+                            {
+                                //cout << "third onion" << endl;
+                                if (b->getCondition()->getObject() == item)
+                                {
+                                    //cout << "fourth onion" << endl;
+                                    if (b->getCondition()->getOwner() == "inventory")
+                                    {
+                                        //cout << "fifth onion" << endl;
+                                        if (b->getCondition()->getHas())
+                                        {
+                                            //cout << "sixth onion" << endl;
+                                            //cout << b->getPrint() << endl;
+                                            for (string x: b->getActions())
+                                            {
+                                                //cout << "seventh onion" << endl;
+                                                updateCommand(player,x);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     return;
                 }
             }
@@ -703,6 +772,28 @@ void takeCommand(Player* player, string item)
     player->setItem(itemToFind);
     player->getRoom()->deleteItem(itemToFind->getName()); //use pocket dimension instead
     cout << "Item " + item + " added to the inventory" << endl;
+    // cout << itemToFind->getName() << endl;
+    for (Room* i: rooms)
+    {
+        for (Creature* a: i->getCreatures())
+        {
+            for (Trigger* b: a->getTriggers())
+            {
+                if (b->getCondition()->getObject() == itemToFind->getName())
+                {
+                    if (b->getCondition()->getOwner() == "inventory")
+                    {
+                        if (b->getCondition()->getHas())
+                        {
+                            // cout << b->getPrint() << endl;
+                            for (string x: b->getActions())
+                            updateCommand(player,x);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // update command to include adding the dropped item to the pocket dimension
@@ -882,12 +973,13 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
     //check if item interacts with creature
     for(string str : creatureToFind->getVulnerabilities()){
         if(str.compare(item) == 0){
-            cout<<"Is vul\n";
+            // cout<<"Is vul\n";
             for(Attack* att: creatureToFind->getAttacks()){
                 cout<<"You assault "<<creature<<" with "<<item<<endl;
                 if(att->getCondition().size() > 0){
                     for(Condition* cond : att->getCondition()){
                         if(attackCondition(cond, itemToFind)){
+                            //cout << "goes here"<< endl;
                             for(string str : att->getPrint()){
                                 cout<<str<<endl;
                             }
@@ -898,6 +990,7 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
                         }
                     }
                 }else{
+                    //cout << "goes here" << endl;
                     for(string str : att->getPrint()){
                         cout<<str<<endl;
                     }
@@ -907,15 +1000,17 @@ void attackCommand(Player* player, string creature, string item, vector<Room*> r
                     return;
                 }
             }
-            // for(auto i : creatureToFind->getTriggers()){
-            //     if(i->getCommand().compare("attack "+creature+" with "+item) == 0){
-            //         cout<<"Command match";
-            //         if(conditionChecker(i, player, rooms)){
-            //             cout<<"TRIGGERED\n";
-            //         }
-            //     }
+            
+            for(auto i : creatureToFind->getTriggers()){
+                cout<<"You assault "<<creature<<" with "<<item<<endl;
+                if(i->getCommand().compare("attack "+creature+" with "+item) == 0){
+                    //cout<<"Command match";
+                    if(conditionChecker(i, player, rooms)){
+                        //cout<<"TRIGGERED\n";
+                    }
+                }
                 
-            // }
+            }
         }
     }
     
@@ -958,7 +1053,7 @@ void updateCommand(Player* player, string action)
     }
     string itemname = action.substr(7,action.find(" to ") - 7);
     cout << action << endl;
-    cout << action.substr(7,action.find(" to ") -7);
+    // cout << action.substr(7,action.find(" to ") -7);
     string status = action.substr(action.find(" to ") + 4);
     // THIS ONLY CHECKS THE PLAYER INVENTORY AND ROOM THEY INHABIT, NOT GLOBAL SEARCH
     Item* itemToFind = searchItems(player->checkInventory(),itemname);
@@ -978,5 +1073,6 @@ void gameOverCommand()
 {
     // deleteCommand on everything
     cout << "Victory!" << endl;
+    gameOver = true;
     return;
 }
