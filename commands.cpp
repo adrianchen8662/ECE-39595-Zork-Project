@@ -1,9 +1,8 @@
 #include "commands.h"
 
-//TODO: fix the triggerhandling for triggersample, it grabs the trigger before it can print
-
 extern bool gameOver;
 Room* Junkyard = NULL;
+int counter;
 
 // helper function that searches a vector of triggers if the command matches
 Trigger* findCommands(vector<Trigger*> triggers, string command)
@@ -96,7 +95,12 @@ bool conditionChecker(Trigger* trigger, Player* player, vector<Room*> rooms)
                         {
                             if (items->getStatus() != y->getCondition()->getStatus())
                             {
-                                return false;
+                                if (y->getType().compare("single") == 0 && y->counter == 0)
+                                {
+                                    return false;
+                                    y->counter++;
+                                }
+                                return true;
                             }
                             // cout<<"You assault "<<x->getName()<<" with "<<items->getName()<<endl;
                         }
@@ -246,7 +250,16 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated,
                 {
                     if (c->getCondition()->getStatus().compare(action) == 0)
                     {
-                        cout << c->getPrint() << endl;
+                        if (player->getRoom()->getName().compare(a->getName()) == 0)
+                        {
+                            if (c->getType().compare("single") == 0 && c->counter == 0)
+                            {
+
+                                c->counter++;
+                                cout << c->getPrint() << endl;
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -259,7 +272,10 @@ void conditionFromTurnOn(Player* player, vector<Room*> rooms, Item* itemUpdated,
                 {
                     if (c->getCondition()->getStatus().compare(action) == 0)
                     {
-                        cout << c->getPrint() << endl;
+                        if (c->getType().compare("single") == 0 && c->counter == 0)
+                        {
+                            cout << c->getPrint() << endl;
+                        }
                     }
                 }
             }

@@ -7,6 +7,7 @@ using namespace std;
 
 Trigger::Trigger(){
     //cout<<"Created new trigger";
+    counter = 0;
 }
 
 void Trigger::addType(string type){

@@ -18,13 +18,13 @@ public:
     Condition* getCondition();
     string getType();
     vector<string> getActions();
+    int counter;
 private:
     string type;
     Condition* condition;
     string print;
     vector<string> actions;
     string command;
-
 };
 
 #endif
