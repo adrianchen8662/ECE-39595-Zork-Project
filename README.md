@@ -14,22 +14,22 @@ The C++ XML parser uses TinyXml to parse the XML file. <br>
 
 ## Object Overview:
 ### Physical Objects
-Rooms<br>
+**Rooms**<br>
 Rooms hold all physical objects that the player can directly interact with, and all non-physical triggers and conditions that create other effects. Rooms cannot hold other rooms.<br>
 
-Items<br>
+**Items**<br>
 Items are things that the player can use to interact with other objects. <br>
 
-Containers<br>
+**Containers**<br>
 Containers hold items. <br>
 
-Creatures<br>
+**Creatures**<br>
 Creatures are attackable objects that can hold items. <br>
 ### Non-Physical Conditions/Triggers
-Triggers<br>
+**Triggers**<br>
 Triggers control if an action causes other things to happen other than what should happen. For instance, if the player tried walking forward but the room has a trigger that said if the player walked without a torch they would stumble and not be able to move, triggers describe that. <br>
 
-Conditions<br>
+**Conditions**<br>
 Conditions control when triggers happen. Could be player-inputted actions, environmental changes or possession of an item, and the variables associated with all these things. <br>
 ## Commands:
 
