@@ -44,3 +44,9 @@ open <container>: prints the contents of the container as <container> contains <
 *put <item> in <container>:* Removes <item> from the inventory and puts it in the container. The ownership of the item is given to <container>. <container> must be open, if not, print Cannot add <item> to closed <container>. Note that the inventory is a container, and is always open. If <item> is not in the inventory, print <item> not in inventory.<br>
 *turn on <item>:* Activates <item> if it is in the inventory, otherwise print <item> not in inventory. The item is activated, and any turnon activities associated with <item> are executed.<br>
 attack <creature> with <item>: prints You assault the <creature> with the <item>. For the command to be successful the item must match the creature (as specified in the .xml) and any existing conditions, also specified in the .xml, must be met. If successful, any attack elements associated with <creature> are executed.<br>
+
+**Behind the Scenes Commands**<br>
+*Add <object> to <room/container>:* creates an instance of <object> with the specified room or container being the owner. This does not work with the inventory.<br>
+*Delete <object>:* Removes <object> from the game, but it can be returned to the game by using an Add command. Rooms cannot be added back in if deleted.<br>
+*Update <object> to <status>:* creates a new status for <object>. Object status can be checked by triggers.<br>
+*Game Over:* ends the game and prints Victory!
